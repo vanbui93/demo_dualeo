@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Input data</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Theme Main CSS -->
+    <link rel="stylesheet" href="/assets/css/base.css"/>
+    <link rel="stylesheet" href="/assets/css/style.css"/>
+
+  </head>
+  <body>
+      <div id="react-app">
+        <div class="main-content--block">
+          <aside class="menu_sidebar">
+            <div class="partial-menu-left">
+              <div class="aside-logo">
+                <a href="/admin"><img src="/assets/images/logo232x58.png" width="150" alt=""></a>
+              </div>
+              <div class="partial-menu--top">
+                <div class="next-nav-menu-left">
+                  <div class="main-menuLeft--block">
+                    <div class="nav-left menu-main--block">
+                      <ul class="nav-list-items">
+                        <li class="next-nav-item">
+                          <a class="div-detect next-nav-link d-flex justify-content-between" href="/admin/add_products">
+                            <div class="menu-parent">
+                              <span class="text-menu-new">Sản phẩm</span>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+          <main id="main_content" class="ui-main">
+            <header class="ui-header">
+              <div class="ui-top-bar max-width-center">
+                <div class="col">
+                  <div class="breadcrumb-block--main-temp">
+                    <ul>
+                      <li>Danh sách sản phẩm</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </header>
+            <div class="wrapper-block">
+              <div class="max-width-center header-tab--block">
+                <div class="header-nav-tab ui---header-nav-tab ui-header-menu--collapse">
+                  <ul class="d-flex">
+                    <li class="d-flex active">
+                      <div class="header-nav-tab__name--first header-nav-tab__name false"><span class="tab-name-info">Tất cả sản phẩm</span></div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="ui-title-bar-container max-width-center">
+                <div class="row no-gutters">
+                  <div class="col">
+                    <div class="row no-gutters">
+                      <div class="col-auto pr-3">
+                        <div class="filter-options__childrent__dropdown__menu">
+                          <span class="ml-3 d-none d-sm-inline-block">Thêm điều kiện lọc</span>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="next-input--stylized">
+                          <input class="next-input next-input--invisible" placeholder="Tìm kiếm" step="1" value="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-auto pl-0">
+                    <button class="btn btn-primary fix-height--button ml-2">
+                      <span class="ml-3 d-none d-sm-inline-block">Tạo sản phẩm</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="padding-container">
+                <div class="table-list-product-list">
+                  <div class="ui-table-listing-container">
+                    <table class="ui-table">
+                      <thead>
+                        <tr>
+                          <th class="table-header--name-pic-incl cursor-pointer"><span>Tên sản phẩm</span></th>
+                          <th class="table-header--inventory"><span id="cspot-products-khadung">Khả dụng</span></th>
+                          <th class="table-header--status"><span>Loại</span></th>
+                          <th class="table-header--name"><span>Nhà cung cấp</span></th>
+                          <th class="table-header--edit"><span>Chỉnh sửa sản phẩm</span></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="product-list-td-second">
+                            <div class="d-flex">
+                              <div class="table-cell--image m-0">
+                                <img class="box-image" src="https://hstatic.net/985/1000003985/1/2015/2-9/zgm1360252363_copy_small.jpg">
+                              </div>
+                              <div class="ml-3 align-self-center title-name">
+                                <div class="table-break-word text-primary ">
+                                  <a href="/">Chocolate handmade SCL05</a>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="text-center">∞</td>
+                          <td class="text-normal">Khác</td>
+                          <td class="text-normal">htc</td>
+                          <td>
+                            <div class="btn-group"><button class="btn btn-outline-info">Sửa</button><button class="btn btn-outline-secondary">Xóa</button></div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
