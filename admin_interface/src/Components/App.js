@@ -4,20 +4,12 @@ import Sidebar from './MenuSidebar/Sidebar';
 import MainContent from './MainContent/MainContent';
 import axios from 'axios';
 import Product from './MainContent/Product';
-
+import { connect } from 'react-redux';
 // get data product from postgres
 const getProductData = () => axios.get('/getproduct').then((response) => response.data)
   .catch((error) => { console.log(error.response); return Promise.reject(error.response)})
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state={
-      data:null,
-      product_name:'',
-      product_image:''
-    }
-  }
 
   UNSAFE_componentWillMount() {
     getProductData().then((res) =>{
@@ -25,8 +17,6 @@ class App extends React.Component {
         data:res
       })
     })
-    
-
   }
 
   // In dữ liệu trong api sau khi nhận được ra
@@ -38,8 +28,9 @@ class App extends React.Component {
         product_image={value.product_image}
         />
       ))
-    }
+    } 
   }
+
   
   render() {
     return (
@@ -47,11 +38,23 @@ class App extends React.Component {
         <div className="main-content--block">
           <Sidebar/>
           <MainContent/>
-          {this.printData()}
+         
         </div>
       </div>
     );
   }
 }
 
-export default App;
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    editState: () => {
+      dispatch({type:"Change_editState"})
+    }
+  }
+}
+
+
+
+
+export default connect(mapDispatchToProps)(App);

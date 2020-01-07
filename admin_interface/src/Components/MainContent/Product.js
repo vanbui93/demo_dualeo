@@ -1,6 +1,14 @@
 import React, { Component } from 'react'
+import axios from 'axios';
+import { connect } from 'react-redux';
 
-export default class Product extends Component {
+// get data product from postgres
+const getProductData = () => axios.get('/getproduct').then((response) => response.data)
+.catch((error) => { console.log(error.response); return Promise.reject(error.response)})
+
+
+class Product extends Component {
+
   render() {
     return (
       <tr>
@@ -26,3 +34,13 @@ export default class Product extends Component {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    editState: () => {
+      dispatch({type:"Change_editState"})
+    }
+  }
+}
+
+export default connect(mapDispatchToProps)(Product);
