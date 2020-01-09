@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ListProduct from './ListProduct';
 
 export default class MainContent extends Component {
   render() {
@@ -48,6 +49,7 @@ export default class MainContent extends Component {
               </div>
             </div>
           </div>
+          <ListProduct/>
         </div>
       </main>
     )

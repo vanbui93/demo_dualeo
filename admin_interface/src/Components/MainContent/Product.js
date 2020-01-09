@@ -1,46 +1,54 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import { connect } from 'react-redux';
+import ProductItem from './ProductItem';
 
 // get data product from postgres
 const getProductData = () => axios.get('/getproduct').then((response) => response.data)
 .catch((error) => { console.log(error.response); return Promise.reject(error.response)})
 
-
 class Product extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state={
+      data: null
+    }
+  }
+
+  UNSAFE_componentWillMount() {
+    getProductData().then((res) =>{
+      this.setState({
+        data:res
+      })
+    })
+  }
+
+  // In dữ liệu trong api sau khi nhận được ra
+  printData = () => {
+    if(this.state.data !== null){
+      return this.state.data.map((value,key) => (
+        <ProductItem key={key}
+        product_name={value.product_name}
+        description={value.description}
+        quantity={value.quantity}
+        product_image={value.product_image}
+        product_link={value.product_link}
+        vendor={value.vendor}
+        type_product={value.type_product}
+        variant={value.variant}
+        collection={value.collection}
+        />
+      ))
+    } 
+  }
 
   render() {
     return (
-      <tr>
-        <td className="product-list-td-second">
-          <div className="d-flex">
-            <div className="table-cell--image m-0">
-              <img className="box-image" src={this.props.product_image} alt=""/>
-            </div>
-            <div className="ml-3 align-self-center title-name">
-              <div className="table-break-word text-primary ">
-                <a href="/">{this.props.product_name}</a>
-              </div>
-            </div>
-          </div>
-        </td>
-        <td className="text-center">∞</td>
-        <td className="text-normal">Khác</td>
-        <td className="text-normal">htc</td>
-        <td>
-          <div className="btn-group"><button className="btn btn-outline-info">Sửa</button><button className="btn btn-outline-secondary">Xóa</button></div>
-        </td>
-      </tr>
+      <tbody>
+        {this.printData()}
+      </tbody>
     )
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    editState: () => {
-      dispatch({type:"Change_editState"})
-    }
-  }
-}
-
-export default connect(mapDispatchToProps)(Product);
+export default Product;

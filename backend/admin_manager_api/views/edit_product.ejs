@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Chỉnh sửa chi tiết sản phẩm</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <!-- Theme Main CSS -->
+  <!-- <link rel="stylesheet" href="/assets/css/base.css"/>
+  <link rel="stylesheet" href="/assets/css/style.css"/>
+  <link rel="stylesheet" href="/assets/css/edit_product.css"/> -->
+  
+</head>
+<body>
+  <aside class="menu_sidebar"></aside>
+  <main id="_main_content_" class="ui-main">
+    <div class="wrapper-block">
+      <div class="max-width-center">
+        <div class="ui---header-nav-tab ui-header-menu--collapse z-index-1">
+          <ul>
+            <li><a class="d-block active" href="#"><span class="tab-new-info ml-2">Thông tin sản phẩm</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <form action="/edit_product" method="post">
+      <div class="ui-title-bar-container  max-width-center">
+        <div class="row">
+          <div class="col">
+            <div class="row">
+              <div class="col-xl-4 col-lg-4 col-6">
+                <div class="ui-toolbar-product-info">
+                  <div class="ui-product-head">Thông tin sản phẩm</div>
+                  <div class="ui-product-body">Chỉnh sửa thông tin sản phẩm</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-primary fix-height--button ml-4"><span>Cập nhật</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="padding-container pb-0">
+        <div class="row">
+          <div class="col-lg-9 col-12">
+            <div class="wrapper-content mb-5">
+              <div class="ui-information">
+                <div class="ui-information-head"><span class="ui-information-title">Thông tin chung</span></div>
+                <div class="ui-information-body">
+                    <div class="form-group">
+                      <label class="label-input-group">Tên sản phẩm</label>
+                      <input type="text" name="product_name" id="product_name" class="form-control" placeholder="Nhập tên sản phẩm" aria-describedby="helpId">
+                    </div>
+                    <div class="form-group">
+                      <label class="label-input-group">Link sản phẩm</label>
+                      <input type="text" name="product_link" id="product_link" class="form-control" placeholder="Nhập link sản phẩm" aria-describedby="helpId">
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-6 col-12">
+                          <label class="label-input-group">Giá bán</label>
+                          <input type="text" name="product_price" id="product_price" class="form-control" placeholder="0 ₫" aria-describedby="helpId">
+                        </div>
+                        <!-- <div class="col-sm-6 col-12">
+                          <label class="label-input-group">Giá so sánh</label>
+                          <input type="text" name="comparison_price" id="comparison_price" class="form-control" placeholder="0 ₫" aria-describedby="helpId">
+                        </div> -->
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="label-input-group">Tồn kho</label>
+                      <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Nhập Tồn kho" aria-describedby="helpId">
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-6 col-12">
+                          <label class="label-input-group">Nơi xuất xứ</label class="label-input-group">
+                          <input type="text" name="vendor" id="vendor" class="form-control" placeholder="" aria-describedby="helpId">
+                        </div>
+                        <div class="col-sm-6 col-12">
+                          <label class="label-input-group">Loại sản phẩm</label>
+                          <input type="text" name="type_product" id="type_product" class="form-control" placeholder="" aria-describedby="helpId">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="wrapper-content mb-5">
+              <div class="ui-information">
+                <div class="ui-information-head"><span class="ui-information-title">Hình ảnh sản phẩm</span></div>
+              </div>
+              <div class="ui-product-photo productInfoNew-uploadImage">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col text-left">
+                      <div class="display-none"></div>
+                      <div><button class="btn btn-link ml-3"><span>Thêm bằng URL</span></button></div>
+                    </div>
+                  </div>
+                  <div class="p-4"><input type="text" class="form-control" name="product_image" id="product_image"></div>
+                </div>
+                <!-- <ul class="ui-product-photo-grid clearfix">
+                  <li class="ui-product-photo-item">
+                    <div class="ui-product-photo-box">
+                      <img class="ui-product-photo-item__image" src="https://product.hstatic.net/1000324420/product/upload_247e10d109a54ac9ad10d23d0736d0b4_1024x1024.jpg" width="290">
+                    </div>
+                  </li>
+                  <li class="d-none"><input type="file" class="form-control-file" name="" id="" placeholder="" aria-describedby="fileHelpId"></li>
+                  <li class="ui-product-photo-item d-block"><div class="file-upload position-relative"><div class="file-upload-drop" aria-disabled="false"><div class="fileupload-text text-center"><svg class="svg-next-icon svg-next-icon-size-30" width="30" height="30"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 490.667 490.667" fill="#6C798F"><path d="M448,128h-67.627l-39.04-42.667H192v64h-64v64H64v213.333c0,23.467,19.2,42.667,42.667,42.667H448c23.467,0,42.667-19.2,42.667-42.667v-256C490.667,147.2,471.467,128,448,128z M277.333,405.333c-58.88,0-106.667-47.787-106.667-106.667S218.453,192,277.333,192S384,239.787,384,298.667S336.213,405.333,277.333,405.333z"></path><polygon points="64,192 106.667,192 106.667,128 170.667,128 170.667,85.333 106.667,85.333 106.667,21.333 64,21.333 64,85.333 0,85.333 0,128 64,128 			"></polygon><path d="M277.333,230.4c-37.76,0-68.267,30.507-68.267,68.267h0c0,37.76,30.507,68.267,68.267,68.267c37.76,0,68.267-30.507,68.267-68.267S315.093,230.4,277.333,230.4z"></path></svg></svg><p class="mb-0 mt-2 text-secondary">Thêm hình ảnh</p></div><input accept="image/*" type="file" multiple="" autocomplete="off" style="display: none;"></div></div></li>
+                </ul> -->
+              </div>
+            </div>
+            <div class="wrapper-content mb-5">
+              <div class="ui-information">
+                <div class="ui-information-head">
+                  <div class="row align-items-center">
+                  <div class="col"><span class="ui-information-title">Chỉnh sửa thuộc tính</span></div>
+                  <!-- <div class="col text-right"><button class="btn btn-primary ml-3" disabled=""><span>Lưu thay đổi</span></button></div> -->
+                  </div>
+                </div>
+                <div class="ui-information-body">
+                  <div class="form-group px-0 pb-0 col-3">
+                    <input type="text" class="form-control" name="variant" id="variant" placeholder="variant">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-12">
+            <div class="wrapper-content mb-5">
+              <div class="ui-information">
+                <div class="ui-information-head">
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <span class="ui-information-title">Nhóm Sản Phẩm</span>
+                    </div>
+                  </div>
+                  <div class="ui-information-body">
+                    <div class="form-group px-0 pb-0">
+                      <input type="text" class="form-control" name="collection" id="collection">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    </div>
+  </main>
+</body>
+</html>
