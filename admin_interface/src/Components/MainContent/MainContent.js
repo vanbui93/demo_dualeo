@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
-import ListProduct from './ListProduct';
+import ProductList from './ProductList';
+import { connect } from 'react-redux';
 
-export default class MainContent extends Component {
+class MainContent extends Component {
+  onClickAction = () => {
+    this.props.changeEditStatus()
+  }
   render() {
     return (
       <main id="main_content" className="ui-main">
@@ -44,14 +48,33 @@ export default class MainContent extends Component {
               </div>
               <div className="col-auto pl-0">
                 <button className="btn btn-primary fix-height--button ml-2">
-                  <span className="ml-3 d-none d-sm-inline-block">Tạo sản phẩm</span>
+                  <a href="/admin/edit_products" onClick={() => this.onClickAction()}><span className="ml-3 d-none d-sm-inline-block">Tạo mới sản phẩm</span></a>
                 </button>
               </div>
             </div>
           </div>
-          <ListProduct/>
+          <ProductList/>
         </div>
       </main>
     )
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    isEdit : state.isEdit
+  }
+}
+
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    changeEditStatus: () => {
+      dispatch({
+        type: "change_isEdit"
+      })
+    }
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(MainContent)

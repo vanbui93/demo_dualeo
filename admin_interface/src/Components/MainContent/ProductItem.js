@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import EditProduct from './EditProduct';
 
 class ProductItem extends Component {
-  onClickAction = () => {
-    // this.props.changeEditState()
-  }
-
+  
   chuyendoiUrl = (str) => {
     // Chuyển hết sang chữ thường
     str = str.toLowerCase();     
@@ -35,6 +33,11 @@ class ProductItem extends Component {
     return str;
   }
 
+
+  onClickAction = () => {
+    this.props.changeEditState();
+    this.props.getEditData(this.props.productEdit)
+  }
   render() {
     return (
       <tr>
@@ -54,10 +57,10 @@ class ProductItem extends Component {
         <td className="text-normal">{this.props.type_product}</td>
         <td className="text-normal">{this.props.vendor}</td>
         <td>
-          <div className="btn-group"><button className="btn btn-outline-info" onClick={() => this.props.changeEditState()}>Sửa</button><button className="btn btn-outline-secondary">Xóa</button></div>
+          <div className="btn-group"><button className="btn btn-outline-info" onClick={() => this.onClickAction()}>Sửa</button><button className="btn btn-outline-secondary">Xóa</button></div>
         </td>
       </tr>
-      )
+    )
   }
 }
 
@@ -72,6 +75,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     changeEditState: () => {
       dispatch({
         type: "change_isEdit"
+      })
+    },
+    getEditData: (editOject) => {
+      dispatch({
+        type: "get_editData",editOject
       })
     }
   }

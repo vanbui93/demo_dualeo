@@ -1,21 +1,29 @@
 import React from 'react';
+import {  BrowserRouter as Router,  Switch,  Route,  Link} from "react-router-dom";
 import './App.css';
 import Sidebar from './MenuSidebar/Sidebar';
-import MainContent from './MainContent/MainContent';
-import EditProduct from './MainContent/EditProduct';
 import { connect } from 'react-redux';
-
+import DieuHuongUrl from './router/DieuHuongUrl';
+import EditProduct from './MainContent/EditProduct';
 
 class App extends React.Component {
+  hienThiFrom = () => {
+    if(this.props.isEdit){
+      return <EditProduct/>
+    } else {
+      return <DieuHuongUrl/>
+    }
+  }
   render() {
     return (
-      <div id="react-app" className="App">
-        <div className="main-content--block">
-          <Sidebar/>
-          <MainContent/>
-          {/* <EditProduct/> */}
+      <Router>
+        <div id="react-app" className="App">
+          <div className="main-content--block">
+            <Sidebar/>
+            {this.hienThiFrom()}
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }

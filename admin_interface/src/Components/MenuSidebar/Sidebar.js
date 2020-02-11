@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-export default class Sidebar extends Component {
+class Sidebar extends Component {
   render() {
     return (
       <aside className="menu_sidebar">
@@ -14,11 +16,10 @@ export default class Sidebar extends Component {
                 <div className="nav-left menu-main--block">
                   <ul className="nav-list-items">
                     <li className="next-nav-item">
-                      <a className="div-detect next-nav-link d-flex justify-content-between" href="/admin/add_products">
-                        <div className="menu-parent">
-                          <span className="text-menu-new">Sản phẩm</span>
-                        </div>
-                      </a>
+                      <NavLink className="div-detect next-nav-link d-flex justify-content-between" to="/admin/products" activeClassName="active"><span className="text-menu-new">Sản phẩm</span></NavLink>
+                    </li>
+                    <li className="next-nav-item">
+                      <NavLink className="div-detect next-nav-link d-flex justify-content-between" to="/admin/edit_products"> <span className="text-menu-new">Chỉnh sửa sản phẩm</span></NavLink>
                     </li>
                   </ul>
                 </div>
@@ -30,3 +31,5 @@ export default class Sidebar extends Component {
     )
   }
 }
+
+export default withRouter(Sidebar);

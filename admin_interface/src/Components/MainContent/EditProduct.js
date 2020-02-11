@@ -1,6 +1,110 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
+import axios from 'axios';
 
 class EditProduct extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state={
+      product_name:'',
+      product_price:'',
+      description:'',
+      quantity:'',
+      product_image:'',
+      vendor:'',
+      type_product:'',
+      variant:'',
+      collection:'',
+      comparison_price:'',
+      id:''
+    }
+  }
+
+  UNSAFE_componentWillMount() {
+    if(this.props.editItem){      //case sửa: kiểm tra xem editItem có dữ liệu không
+      this.setState({
+        product_name: this.props.editItem.product_name,
+        product_price: this.props.editItem.product_price,
+        description: this.props.editItem.description,
+        quantity: this.props.editItem.quantity,
+        product_image: this.props.editItem.product_image,
+        vendor: this.props.editItem.vendor,
+        type_product: this.props.editItem.type_product,
+        variant: this.props.editItem.variant,
+        collection: this.props.editItem.collection,
+        comparison_price: this.props.editItem.collection,
+        id: this.props.editItem.id
+      });
+    }
+  }
+  
+  
+
+  printTitle = () => {
+    if(this.props.isEdit){
+      return <h3>Cập nhật</h3>
+    } else {
+      return <h3>Thêm mới Sản phẩm</h3>
+    }
+  }
+
+  isChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    this.setState({
+      [name]: value
+    })
+
+    console.log(value);
+    
+  }
+
+  // handleInsertObject= (event) => {
+  //   event.preventDefault();
+  //   if(this.state.id){
+  //     console.log('dang sua du lieu');
+  //     var editObject = {};
+  //     editObject.id = this.state.id;
+  //     editObject.product_name = this.state.product_name;
+  //     editObject.product_price = this.state.product_price;
+  //     editObject.description = this.state.description;
+  //     editObject.quantity = this.state.quantity;
+  //     editObject.product_image = this.state.product_image;
+  //     editObject.vendor = this.state.vendor;
+  //     editObject.type_product = this.state.type_product;
+  //     editObject.variant = this.state.variant;
+  //     editObject.collection = this.state.collection;
+  //     editObject.comparison_price = this.state.collection;
+  //     this.props.editDataStore(editObject)
+
+  //     // axios.post('/edit_product', editObject)
+  //     // .then(res => {
+  //       let key = this.state.product_name;
+  //       console.log(key);
+        
+  //       // this.setState(prevState => (
+  //       //   console.log(this.state.id)
+          
+  //       //   // data: prevState.data.map(
+  //       //   //   elm => elm.id === key? {
+  //       //   //     ...elm,
+  //       //   //     product_name: this.state.product_name,
+  //       //   //     description: this.state.description,
+  //       //   //     quantity: this.state.quantity
+  //       //   //   }: elm
+  //       //   // )
+  //       // ))
+  //     // })
+  //     // .catch(error => console.log(error));
+      
+  //     this.props.alertOn("Đã sửa thành công","success");
+  //   } else {
+  //     var item ={};
+  //     this.props.alertOn("Đã thêm mới thành công","warning");
+  //   }
+  // }
+
   render() {
     return (
       <div>
@@ -9,11 +113,11 @@ class EditProduct extends Component {
             <div className="max-width-center">
               <div className="ui---header-nav-tab ui-header-menu--collapse z-index-1">
                 <ul>
-                  <li><a className="d-block active" href="#"><span className="tab-new-info ml-2">Thông tin sản phẩm</span></a></li>
+                  <li><a className="d-block active" href="/"><span className="tab-new-info ml-2">Thông tin sản phẩm</span></a></li>
                 </ul>
               </div>
             </div>
-            <form action="/edit_product" method="post">
+            <form action="/add" method="post">
               <div className="ui-title-bar-container  max-width-center">
                 <div className="row">
                   <div className="col">
@@ -27,7 +131,7 @@ class EditProduct extends Component {
                     </div>
                   </div>
                   <div className="col-auto">
-                    <button type="submit" className="btn btn-primary fix-height--button ml-4"><span>Cập nhật</span></button>
+                    <button className="btn btn-primary fix-height--button ml-4" type="submit"><span>{this.printTitle()}</span></button>
                   </div>
                 </div>
               </div>
@@ -40,38 +144,38 @@ class EditProduct extends Component {
                         <div className="ui-information-body">
                           <div className="form-group">
                             <label className="label-input-group">Tên sản phẩm</label>
-                            <input type="text" name="product_name" id="product_name" className="form-control" placeholder="Nhập tên sản phẩm" aria-describedby="helpId" />
+                            <input type="text" name="product_name" id="product_name" className="form-control" placeholder="Nhập tên sản phẩm" defaultValue={this.props.editItem.product_name} onChange={(event) => this.isChange(event)}/>
                           </div>
                           <div className="form-group">
                             <div className="row">
                               <div className="col-sm-6 col-12">
                                 <label className="label-input-group">Giá bán</label>
-                                <input type="text" name="product_price" id="product_price" className="form-control" placeholder="0 ₫" aria-describedby="helpId" />
+                                <input type="text" name="product_price" id="product_price" className="form-control" placeholder="0 ₫" defaultValue={this.props.editItem.product_price} onChange={(event) => this.isChange(event)}/>
                               </div>
-                              {/* <div class="col-sm-6 col-12">
-                          <label class="label-input-group">Giá so sánh</label>
-                          <input type="text" name="comparison_price" id="comparison_price" class="form-control" placeholder="0 ₫" aria-describedby="helpId">
-                        </div> */}
+                              <div className="col-sm-6 col-12">
+                                <label className="label-input-group">Giá so sánh</label>
+                                <input type="text" name="comparison_price" id="comparison_price" className="form-control" placeholder="0 ₫" defaultValue={this.props.editItem.comparison_price} onChange={(event) => this.isChange(event)} />
+                              </div>
                             </div>
                           </div>
                           <div className="form-group">
                             <label className="label-input-group">Tồn kho</label>
-                            <input type="text" name="quantity" id="quantity" className="form-control" placeholder="Nhập Tồn kho" aria-describedby="helpId" />
+                            <input type="text" name="quantity" id="quantity" className="form-control" placeholder="Nhập Tồn kho" defaultValue={this.props.editItem.quantity} onChange={(event) => this.isChange(event)} />
                           </div>
                           <div className="form-group">
                             <div className="row">
                               <div className="col-sm-6 col-12">
                                 <label className="label-input-group">Nơi xuất xứ</label>
-                                <input type="text" name="vendor" id="vendor" className="form-control" placeholder="Đà lạt" aria-describedby="helpId" />
+                                <input type="text" name="vendor" id="vendor" className="form-control" placeholder="Đà lạt" defaultValue={this.props.editItem.vendor} onChange={(event) => this.isChange(event)} />
                               </div>
                               <div className="col-sm-6 col-12">
                                 <label className="label-input-group">Loại sản phẩm</label>
-                                <input type="text" name="type_product" id="type_product" className="form-control" placeholder="dưa leo" aria-describedby="helpId" />
+                                <input type="text" name="type_product" id="type_product" className="form-control" placeholder="dưa leo" defaultValue={this.props.editItem.type_product} onChange={(event) => this.isChange(event)} />
                               </div>
                             </div>
                           </div>
                           <div className="form-group">
-                            <textarea className="form-control" name="description" id="description" rows={3} placeholder="Mô tả sản phẩm"/>
+                            <textarea className="form-control" name="description" id="description" rows={3} placeholder="Mô tả sản phẩm"  defaultValue={this.props.editItem.description} onChange={(event) => this.isChange(event)} />
                           </div>
                         </div>
                       </div>
@@ -88,7 +192,14 @@ class EditProduct extends Component {
                               <div><button className="btn btn-link ml-3"><span>Thêm bằng URL</span></button></div>
                             </div>
                           </div>
-                          <div className="p-4"><input type="text" className="form-control" name="product_image" id="product_image" /></div>
+                          <div className="p-4"><input type="text" className="form-control" name="product_image" id="product_image"  defaultValue={this.props.editItem.product_image} onChange={(event) => this.isChange(event)} /></div>
+                          <ul className="p-4 product-photo-box">
+                            <li className="ui-product-photo-item">
+                              <div className="ui-product-photo-box">
+                                <img src={this.props.editItem.product_image} className="ui-product-photo-item__image" alt="" width="200"/>
+                              </div>
+                            </li>
+                          </ul>
                         </div>
                         {/* <ul class="ui-product-photo-grid clearfix">
                   <li class="ui-product-photo-item">
@@ -111,7 +222,7 @@ class EditProduct extends Component {
                         </div>
                         <div className="ui-information-body">
                           <div className="form-group px-0 pb-0 col-3">
-                            <input type="text" className="form-control" name="variant" id="variant" placeholder="variant" />
+                            <input type="text" className="form-control" name="variant" id="variant" placeholder="variant"  defaultValue={this.props.editItem.variant} onChange={(event) => this.isChange(event)} />
                           </div>
                         </div>
                       </div>
@@ -128,7 +239,7 @@ class EditProduct extends Component {
                           </div>
                           <div className="ui-information-body">
                             <div className="form-group px-0 pb-0">
-                              <input type="text" className="form-control" name="collection" id="collection" />
+                              <input type="text" className="form-control" name="collection" id="collection"  defaultValue={this.props.editItem.collection} onChange={(event) => this.isChange(event)} />
                             </div>
                           </div>
                         </div>
@@ -144,4 +255,32 @@ class EditProduct extends Component {
     )
   }
 }
-export default EditProduct;
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    isEdit: state.isEdit,
+    editItem: state.editItem
+  }
+}
+
+//Truyền edit_Object vào để gom dữ liệu -> đẩy edit_Object lên store
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    editDataStore: (getItem) => {
+      dispatch({type: "edit_Object",getItem})
+    },
+    alertOn: (alertContent,alertType) => {
+      dispatch({
+        type: "ALERT_ON",alertContent,alertType
+      })
+    },
+    alertOff: () => {
+      dispatch({
+        type: "ALERT_OFF"
+      })
+    }
+  }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(EditProduct);
