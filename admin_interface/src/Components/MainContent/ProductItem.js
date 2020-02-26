@@ -36,8 +36,14 @@ class ProductItem extends Component {
 
   onClickAction = () => {
     this.props.changeEditState();
-    this.props.getEditData(this.props.productEdit)
+    this.props.getEditData(this.props.productEdit);
   }
+
+  getDeleteData =(e) => {
+    this.props.getDeleteData(this.props.productEdit.id);
+    this.props.alertOn("Xóa thành công ghi chú  '"+ this.props.productEdit.id + "'","danger"); 
+  }
+
   render() {
     return (
       <tr>
@@ -57,7 +63,7 @@ class ProductItem extends Component {
         <td className="text-normal">{this.props.type_product}</td>
         <td className="text-normal">{this.props.vendor}</td>
         <td>
-          <div className="btn-group"><button className="btn btn-outline-info" onClick={() => this.onClickAction()}>Sửa</button><button className="btn btn-outline-secondary">Xóa</button></div>
+          <div className="btn-group"><button className="btn btn-outline-info" onClick={() => this.onClickAction()}>Sửa</button><button className="btn btn-outline-secondary" onClick={this.getDeleteData}>Xóa</button></div>
         </td>
       </tr>
     )
@@ -66,7 +72,7 @@ class ProductItem extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-  
+    editItem: state.editItem
   }
 }
 
@@ -77,9 +83,27 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         type: "change_isEdit"
       })
     },
+    editDataStore: (getItem) => {
+      dispatch({type: "EDIT_DATA",getItem})
+    },
     getEditData: (editOject) => {
       dispatch({
-        type: "get_editData",editOject
+        type: "GET_EDIT_DATA",editOject
+      })
+    },
+    getDeleteData: (deleteId) => {
+      dispatch({
+        type: "DELETE_DATA",deleteId
+      })
+    },
+    alertOn: (alertContent,alertType) => {
+      dispatch({
+        type: "ALERT_ON",alertContent,alertType
+      })
+    },
+    alertOff: () => {
+      dispatch({
+        type: "ALERT_OFF"
       })
     }
   }

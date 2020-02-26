@@ -7,6 +7,7 @@ import DieuHuongUrl from './router/DieuHuongUrl';
 import EditProduct from './MainContent/EditProduct';
 
 class App extends React.Component {
+  
   hienThiFrom = () => {
     if(this.props.isEdit){
       return <EditProduct/>

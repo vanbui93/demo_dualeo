@@ -45,7 +45,6 @@ class ProductList extends Component {
   }
   showForm = () => {
     console.log("hihi do cho");
-    
   }
   render() {
     return (
@@ -79,6 +78,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     changeEditState: () => {
       dispatch({
         type: "change_isEdit"
+      })
+    },
+    getProductData: () => {
+      dispatch({
+        type: "RECEIVE_DATA"
       })
     }
   }
