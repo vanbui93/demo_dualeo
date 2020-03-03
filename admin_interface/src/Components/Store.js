@@ -6,35 +6,28 @@ import axios from 'axios';
 // const { Client } = require('pg');
 // const connectionString = 'postgres://sezfxvfd:fcfgYpLxTvIpKnsliDYq_NLqswImFHOl@john.db.elephantsql.com:5432/sezfxvfd'
 
-// // Đưa vào đây để lấy dữ liệu khi chỉnh sửa, còn việc hiển thị dữ liệu ra ngoài thì đã làm bên Product
-// const RECEIVE_DATA = () => axios.get('/getproduct').then((response) => response.data )
-// .catch((error) => { console.log(error.response); return Promise.reject(error.response)})
-
+// Đưa vào đây để lấy dữ liệu khi chỉnh sửa, còn việc hiển thị dữ liệu ra ngoài thì đã làm bên Product
 
 var redux = require('redux');
 
 var noteInitialState = {
   isEdit : false,
   editItem: {},
-  data: null,
+  getItem: {},
   isAdd: false,
   alertShow: false,
   AlertContent: '',
-  AlertType: ''
+  AlertType: '',
+  products: []
 }
+
 
 var allReducer = (state=noteInitialState, action) => {
   switch (action.type) {
     case "change_isEdit":
       return {...state,isEdit:!state.isEdit}
-    case "RECEIVE_DATA":
-      return {...state,data:action.data}
     case "GET_EDIT_DATA": // GET_EDIT_DATA là để hiển thị data cần sửa ra form
       return {...state,editItem:action.editOject}
-    case "DELETE_DATA":
-      console.log(action.deleteId)
-      // return {...state, state:action.deleteId,data:action.data}
-      // return state.data.filter(data => data.id !== action.deleteId);
     case "EDIT_DATA": //EDIT_DATA là dữ liệu editItem sau khi sửa, mục đích gom dữ liệu lại để ghi đè lên GET_EDIT_DATA
     //update dữ liệu vào Sql
       return {...state, editItem:{}}

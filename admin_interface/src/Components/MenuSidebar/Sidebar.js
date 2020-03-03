@@ -8,7 +8,7 @@ class Sidebar extends Component {
       <aside className="menu_sidebar">
         <div className="partial-menu-left">
           <div className="aside-logo">
-            <a href="/admin"><img src="/assets/images/logo232x58.png" width={150} alt="" /></a>
+            <a href="/"><img src="/assets/images/logo232x58.png" width={150} alt="" /></a>
           </div>
           <div className="partial-menu--top">
             <div className="next-nav-menu-left">
@@ -19,7 +19,7 @@ class Sidebar extends Component {
                       <NavLink className="div-detect next-nav-link d-flex justify-content-between" to="/admin/products" activeClassName="active"><span className="text-menu-new">Sản phẩm</span></NavLink>
                     </li>
                     <li className="next-nav-item">
-                      <NavLink className="div-detect next-nav-link d-flex justify-content-between" to="/admin/edit_products"> <span className="text-menu-new">Chỉnh sửa sản phẩm</span></NavLink>
+                      <NavLink className="div-detect next-nav-link d-flex justify-content-between" to="/admin/add"> <span className="text-menu-new">Tạo mới sản phẩm</span></NavLink>
                     </li>
                   </ul>
                 </div>

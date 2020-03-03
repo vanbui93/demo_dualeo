@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import EditProduct from './EditProduct';
 
-class ProductItem extends Component {
-  
+class ProductItem extends Component {  
   chuyendoiUrl = (str) => {
     // Chuyển hết sang chữ thường
     str = str.toLowerCase();     
-
     // xóa dấu
     str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
     str = str.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');
@@ -32,6 +29,8 @@ class ProductItem extends Component {
     // return
     return str;
   }
+  
+
 
 
   onClickAction = () => {
@@ -39,9 +38,17 @@ class ProductItem extends Component {
     this.props.getEditData(this.props.productEdit);
   }
 
-  getDeleteData =(e) => {
-    this.props.getDeleteData(this.props.productEdit.id);
-    this.props.alertOn("Xóa thành công ghi chú  '"+ this.props.productEdit.id + "'","danger"); 
+  handleDelete = (deleteId) => {
+    if(confirm('Bạn có chắc chắn muốn xóa ?')){ //eslint-disable-line
+      this.props.handleDelete(deleteId)
+    }
+    
+    
+    // this.setState(prevState => ({
+    //   products: prevState.products.filter(elm => elm.id !== newsId )
+    // }));
+    // this.props.getDeleteData(this.props.productEdit.id);
+    // this.props.alertOn("Xóa thành công ghi chú  '"+ this.props.productEdit.id + "'","danger"); 
   }
 
   render() {
@@ -54,7 +61,7 @@ class ProductItem extends Component {
             </div>
             <div className="ml-3 align-self-center title-name">
               <div className="table-break-word text-primary ">
-                <a href={"/edit_product/" + this.chuyendoiUrl(this.props.product_name)}>{this.props.product_name}</a>
+                <a href="/form-edit">{this.props.product_name}</a>
               </div>
             </div>
           </div>
@@ -63,7 +70,10 @@ class ProductItem extends Component {
         <td className="text-normal">{this.props.type_product}</td>
         <td className="text-normal">{this.props.vendor}</td>
         <td>
-          <div className="btn-group"><button className="btn btn-outline-info" onClick={() => this.onClickAction()}>Sửa</button><button className="btn btn-outline-secondary" onClick={this.getDeleteData}>Xóa</button></div>
+          <div className="btn-group">
+            <button className="btn btn-warning" onClick={() => this.onClickAction()}>Sửa</button>
+            <button className="btn btn-danger" onClick={() => this.handleDelete(this.props.id)}>Xóa</button>
+          </div>
         </td>
       </tr>
     )
@@ -83,17 +93,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         type: "change_isEdit"
       })
     },
-    editDataStore: (getItem) => {
-      dispatch({type: "EDIT_DATA",getItem})
-    },
     getEditData: (editOject) => {
       dispatch({
         type: "GET_EDIT_DATA",editOject
-      })
-    },
-    getDeleteData: (deleteId) => {
-      dispatch({
-        type: "DELETE_DATA",deleteId
       })
     },
     alertOn: (alertContent,alertType) => {

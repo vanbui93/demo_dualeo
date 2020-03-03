@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-class EditProduct extends Component {
+class FormEdit extends Component {
 
   constructor(props) {
     super(props);
@@ -33,7 +33,7 @@ class EditProduct extends Component {
         type_product: this.props.editItem.type_product,
         variant: this.props.editItem.variant,
         collection: this.props.editItem.collection,
-        comparison_price: this.props.editItem.collection,
+        comparison_price: this.props.editItem.comparison_price,
         id: this.props.editItem.id
       });
     }
@@ -68,27 +68,66 @@ class EditProduct extends Component {
 
   handleEditSubmit = (event) => {
     event.preventDefault();
-    if(this.state.id){
-      console.log('dang sua du lieu');
-      var editObject = {};
-      editObject.id = this.state.id;
-      editObject.product_name = this.state.product_name;
-      editObject.product_price = this.state.product_price;
-      editObject.description = this.state.description;
-      editObject.quantity = this.state.quantity;
-      editObject.product_image = this.state.product_image;
-      editObject.vendor = this.state.vendor;
-      editObject.type_product = this.state.type_product;
-      editObject.variant = this.state.variant;
-      editObject.collection = this.state.collection;
-      editObject.comparison_price = this.state.collection;
-      this.props.editDataStore(editObject);
-      this.props.changeEditStatus(); //Tat form đi
 
-      this.props.alertOn("Đã sửa thành công","success");
-    } else {
-      this.props.alertOn("Đã thêm mới thành công","warning");
-    }
+    const editObject = {
+      id : this.state.id,
+      product_name : this.state.product_name,
+      product_price : this.state.product_price,
+      description : this.state.description,
+      quantity : this.state.quantity,
+      product_image : this.state.product_image,
+      vendor : this.state.vendor,
+      type_product : this.state.type_product,
+      variant : this.state.variant,
+      collection : this.state.collection,
+      comparison_price : this.state.collection
+    };
+    console.log(editObject);
+
+    axios.post('/api/edit_product', editObject)
+    .then(res => {
+      let key = this.state.id;
+      this.setState(prevState => ({
+        data: prevState.data.map(
+          elm => elm.id === key? {
+            ...elm,
+            product_name : this.state.product_name,
+            product_price : this.state.product_price,
+            description : this.state.description,
+            quantity : this.state.quantity,
+            product_image : this.state.product_image,
+            vendor : this.state.vendor,
+            type_product : this.state.type_product,
+            variant : this.state.variant,
+            collection : this.state.collection,
+            comparison_price : this.state.collection
+          }: elm
+        )
+      }))
+    })
+    .catch(error => console.log(error));
+
+    // if(this.state.id){
+    //   console.log('dang sua du lieu');
+    //   var editObject = {};
+    //   editObject.id = this.state.id;
+    //   editObject.product_name = this.state.product_name;
+    //   editObject.product_price = this.state.product_price;
+    //   editObject.description = this.state.description;
+    //   editObject.quantity = this.state.quantity;
+    //   editObject.product_image = this.state.product_image;
+    //   editObject.vendor = this.state.vendor;
+    //   editObject.type_product = this.state.type_product;
+    //   editObject.variant = this.state.variant;
+    //   editObject.collection = this.state.collection;
+    //   editObject.comparison_price = this.state.collection;
+    //   this.props.editDataStore(editObject);
+    //   this.props.changeEditStatus(); //Tat form đi
+
+    //   this.props.alertOn("Đã sửa thành công","success");
+    // } else {
+    //   this.props.alertOn("Đã thêm mới thành công","warning");
+    // }
   }
 
   render() {
@@ -103,7 +142,7 @@ class EditProduct extends Component {
                 </ul>
               </div>
             </div>
-            <form action="/edit" method="post">
+            <form onSubmit={this.handleEditSubmit} method="post">
               <div className="ui-title-bar-container  max-width-center">
                 <div className="row">
                   <div className="col">
@@ -272,4 +311,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(EditProduct);
+export default connect(mapStateToProps,mapDispatchToProps)(FormEdit);

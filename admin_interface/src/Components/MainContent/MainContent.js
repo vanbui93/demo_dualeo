@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import ProductList from './ProductList';
 import { connect } from 'react-redux';
+import {Link} from 'react-router-dom'
+import ProductList from './ProductList';
 
 class MainContent extends Component {
   onClickAction = () => {
@@ -47,9 +48,7 @@ class MainContent extends Component {
                 </div>
               </div>
               <div className="col-auto pl-0">
-                <button className="btn btn-primary fix-height--button ml-2">
-                  <a href="/admin/edit_products" onClick={() => this.onClickAction()}><span className="ml-3 d-none d-sm-inline-block">Tạo mới sản phẩm</span></a>
-                </button>
+                <Link to="/admin/add" className="btn btn-primary fix-height--button ml-2">Tạo mới sản phẩm</Link>
               </div>
             </div>
           </div>

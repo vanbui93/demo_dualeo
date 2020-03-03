@@ -1,34 +1,48 @@
 import React, { Component } from 'react'
-import axios from 'axios';
 import ProductItem from './ProductItem';
 import { connect } from 'react-redux';
-
-// get data product from postgres
-const getProductData = () => axios.get('/getproduct').then((response) => response.data)
-.catch((error) => { console.log(error.response); return Promise.reject(error.response)})
-
+import callApi from './../../ConnectAxios/apiCaller'
 
 class ProductList extends Component {
   constructor(props) {
     super(props);
     this.state={
-      data: null
+      products: []
     }
   }
 
   UNSAFE_componentWillMount() {
-    getProductData().then((res) =>{
+    callApi('api/products','GET',null).then(res =>{
       this.setState({
-        data:res
+        products:res.data
       })
     })
   }
 
+  
+  handleDel = (deleteId) => {
+
+    var {products} = this.state;
+    // callApi(`api/delete`, 'DELETE', null).then(res =>{
+    //   console.log(res);
+    // });
+    console.log(deleteId);
+
+    callApi('/api/delete','DELETE', null)
+    .then(res => {
+      this.setState(prevState => ({
+          products: prevState.products.filter(elm => elm.product_id !== deleteId)
+        }))
+      })
+    
+  }
+
   // In dữ liệu trong api sau khi nhận được ra
   getDulieu = () => {
-    if(this.state.data !== null){
-      return this.state.data.map((value,key) => (
+    if(this.state.products !== null){
+      return this.state.products.map((value,key) => (
         <ProductItem key={key}
+        id={value.id}
         product_name={value.product_name}
         description={value.description}
         quantity={value.quantity}
@@ -39,13 +53,13 @@ class ProductList extends Component {
         variant={value.variant}
         collection={value.collection}
         productEdit={value}
+        handleDelete = {this.handleDel}
         />
       ))
-    } 
+      
+    }
   }
-  showForm = () => {
-    console.log("hihi do cho");
-  }
+
   render() {
     return (
       <div className="padding-container">
@@ -80,10 +94,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         type: "change_isEdit"
       })
     },
-    getProductData: () => {
-      dispatch({
-        type: "RECEIVE_DATA"
-      })
+    getProductproducts: (products) => {
+      dispatch({type: "RECEIVE_products",products})
     }
   }
 }
