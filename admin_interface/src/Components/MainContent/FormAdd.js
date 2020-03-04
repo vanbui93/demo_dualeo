@@ -23,23 +23,23 @@ class FormAdd extends Component {
       products: []
     }
   }
-  // UNSAFE_componentWillMount() {
-  //   if(this.props.editItem){      //case sửa: kiểm tra xem editItem có dữ liệu không
-  //     this.setState({
-  //       product_name: this.props.editItem.product_name,
-  //       product_price: this.props.editItem.product_price,
-  //       description: this.props.editItem.description,
-  //       quantity: this.props.editItem.quantity,
-  //       product_image: this.props.editItem.product_image,
-  //       vendor: this.props.editItem.vendor,
-  //       type_product: this.props.editItem.type_product,
-  //       variant: this.props .editItem.variant,
-  //       collection: this.props.editItem.collection,
-  //       comparison_price: this.props.editItem.collection,
-  //       id: this.props.editItem.id
-  //     });
-  //   }
-  // }
+  UNSAFE_componentWillMount() {
+    if(this.props.editItem){      //case sửa: kiểm tra xem editItem có dữ liệu không
+      this.setState({
+        product_name: this.props.editItem.product_name,
+        product_price: this.props.editItem.product_price,
+        description: this.props.editItem.description,
+        quantity: this.props.editItem.quantity,
+        product_image: this.props.editItem.product_image,
+        vendor: this.props.editItem.vendor,
+        type_product: this.props.editItem.type_product,
+        variant: this.props .editItem.variant,
+        collection: this.props.editItem.collection,
+        comparison_price: this.props.editItem.collection,
+        id: this.props.editItem.id
+      });
+    }
+  }
 
   printTitle = () => {
     if(this.props.isEdit){
@@ -64,22 +64,28 @@ class FormAdd extends Component {
 
     var {history} = this.props;
     // gán name của form cho state
-    var {txtName,txtPrice,txtDescription,txtQuantity,txtImage,txtVendor,txtType,txtVariant,txtCollection,txtComparePrice} = this.state;
-    callApi('api/add','POST', {
-      product_name: txtName,
-      product_price: txtPrice,
-      description: txtDescription,
-      quantity: txtQuantity,
-      product_image: txtImage,
-      vendor:txtVendor,
-      type_product:txtType,
-      variant: txtVariant,
-      collection: txtCollection,
-      comparison_price: txtComparePrice
-    }).then(res => {
-      console.log(res);
-      history.goBack();
-    })
+    var {id,txtName,txtPrice,txtDescription,txtQuantity,txtImage,txtVendor,txtType,txtVariant,txtCollection,txtComparePrice} = this.state;
+    if(id) {
+      console.log("cap nhat");
+      
+    } else {
+      callApi('api/add','POST', {
+        product_name: txtName,
+        product_price: txtPrice,
+        description: txtDescription,
+        quantity: txtQuantity,
+        product_image: txtImage,
+        vendor:txtVendor,
+        type_product:txtType,
+        variant: txtVariant,
+        collection: txtCollection,
+        comparison_price: txtComparePrice
+      }).then(res => {
+        console.log(res);
+        history.goBack();
+      })
+    }
+    
     
   }
 

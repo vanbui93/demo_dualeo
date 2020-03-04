@@ -1,5 +1,4 @@
 import axios from 'axios'
-import * as Config from '../Constants/Config'
 
 
 export default function callApi(endpoint, method ,body){
@@ -8,6 +7,6 @@ export default function callApi(endpoint, method ,body){
     url: `/${endpoint}`,
     data: body
   })
-  .catch((error) => { console.log(error.response); return Promise.reject(error.response)});
-  
+  .catch((error) => { console.log(error); return Promise.reject(error)});
 }
+

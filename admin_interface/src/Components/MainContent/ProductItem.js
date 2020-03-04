@@ -53,7 +53,7 @@ class ProductItem extends Component {
 
   render() {
     return (
-      <tr>
+      <tr id={this.props.product_id}>
         <td className="product-list-td-second">
           <div className="d-flex">
             <div className="table-cell--image m-0">

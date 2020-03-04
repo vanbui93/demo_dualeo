@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import ProductItem from './ProductItem';
 import { connect } from 'react-redux';
 import callApi from './../../ConnectAxios/apiCaller'
-
 class ProductList extends Component {
   constructor(props) {
     super(props);
     this.state={
+      id: '',
       products: []
     }
   }
@@ -18,20 +18,18 @@ class ProductList extends Component {
       })
     })
   }
-
   
   handleDel = (deleteId) => {
-
-    var {products} = this.state;
     // callApi(`api/delete`, 'DELETE', null).then(res =>{
     //   console.log(res);
     // });
-    console.log(deleteId);
-
-    callApi('/api/delete','DELETE', null)
+    
+    callApi(`api/delete/${deleteId}`,'DELETE', null)
     .then(res => {
+      console.log(deleteId);
+      
       this.setState(prevState => ({
-          products: prevState.products.filter(elm => elm.product_id !== deleteId)
+          products: prevState.products.filter(elm => elm.id !== deleteId)
         }))
       })
     
@@ -55,8 +53,7 @@ class ProductList extends Component {
         productEdit={value}
         handleDelete = {this.handleDel}
         />
-      ))
-      
+      ))      
     }
   }
 
