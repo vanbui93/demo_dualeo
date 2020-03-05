@@ -65,47 +65,28 @@ router.delete('/api/delete/:id', (req, res) => {
 })
 });
 
-// router.post('/api/edit_product', (req, res) => {
-//   var sql = "UPDATE product_info SET "
-//           +   "title='"+req.body.title+"',"
-//           +   "description='"+req.body.description+"',"
-//           +   "content='"+req.body.content+"'"
-//           + "WHERE id='"+req.body.id+"'";
-//   connection.query(sql, function(err, results) {
-//     if (err) throw err;
-//     res.json({news: results});
-//   });
-// });
-
-router.put('/api/edit/54', function(req, res) {
+router.put('/api/edit/:id', function(req, res) {
   pool.connect(function(error){ 
-    var product_name = req.body.product_name,
-    product_price = req.body.product_price,
-    description = req.body.description,
-    quantity = req.body.quantity,
-    product_image = req.body.product_image,
-    product_vendor = req.body.vendor,
-    type_product = req.body.type_product,
-    product_variant = req.body.variant,
-    p_collection = req.body.collection;
-    comparison_price = req.body.comparison_price;
-    var sql = "UPDATE product_info SET product_name=$2,product_price=$3,description=$4,quantity=$5,product_image=$6,vendor=$7,type_product=$8,variant=$9,collection=$10,comparison_price=$11 WHERE id='"+req.params.id+"'";
-    pool.query(
-      sql,[product_name,product_price,description,quantity,product_image,product_vendor,type_product,product_variant,p_collection,comparison_price],
-      (error, results) => {
-        if (error) {
-          throw error
-        }
-        response.status(200).send(`User modified with ID: id`)
+    var sql = "UPDATE product_info SET " + 
+    "product_name = '"+req.body.product_name+"'," + 
+    "product_price = '"+req.body.product_price+"'," + 
+    "description = '"+req.body.description+"'," + 
+    "quantity = '"+req.body.quantity+"'," + 
+    "product_image = '"+req.body.product_image+"'," + 
+    "vendor = '"+req.body.vendor+"'," + 
+    "type_product = '"+req.body.type_product+"'," + 
+    "variant = '"+req.body.variant+"'," + 
+    "collection = '"+req.body.collection+"'," + 
+    "comparison_price = '"+req.body.comparison_price+"'" + 
+    // "comparison_price = '"+req.body.comparison_price+"'" + 
+    "WHERE id='"+req.params.id+"'";
+    pool.query(sql, function(err, results) {
+      if(err) {
+        res.send(error);
+      } else {
+        res.json({results});
       }
-    )
-    //   pool.query(sql,[product_name,product_price,description,quantity,product_image,product_vendor,type_product,product_variant,p_collection,comparison_price],(err,result) => {
-    //     if(error) {
-    //       res.send(error);
-    //     } else {
-    //       res.send('Insert du lieu thanh cong ' + product_name + product_price + description + quantity + product_image + product_vendor + type_product + product_variant + p_collection + comparison_price)
-    //     }
-    //   })
+      });
   })
 
 })

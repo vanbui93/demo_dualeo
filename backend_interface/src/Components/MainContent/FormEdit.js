@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import axios from 'axios';
+import callApi from './../../ConnectAxios/apiCaller'
 
 class FormEdit extends Component {
 
   constructor(props) {
     super(props);
     this.state={
+      products: [],
       id:'',
       product_name:'',
       product_price:'',
@@ -56,7 +58,7 @@ class FormEdit extends Component {
     }
   }
 
-  handleInputChange  = (event) => {
+  handleInputChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     this.setState({
@@ -80,15 +82,16 @@ class FormEdit extends Component {
       type_product : this.state.type_product,
       variant : this.state.variant,
       collection : this.state.collection,
-      comparison_price : this.state.collection
+      comparison_price : this.state.comparison_price
     };
-    console.log(editObject);
-
-    axios.post('/api/edit_product', editObject)
+    const updateId = this.state.id
+    callApi(`api/edit/${updateId}`,'PUT', editObject)
     .then(res => {
       let key = this.state.id;
+      console.log(key);
+      
       this.setState(prevState => ({
-        data: prevState.data.map(
+        products: prevState.products.map(
           elm => elm.id === key? {
             ...elm,
             product_name : this.state.product_name,
@@ -100,12 +103,11 @@ class FormEdit extends Component {
             type_product : this.state.type_product,
             variant : this.state.variant,
             collection : this.state.collection,
-            comparison_price : this.state.collection
+            comparison_price : this.state.comparison_price
           }: elm
         )
-      }))
+      }));
     })
-    .catch(error => console.log(error));
 
     // if(this.state.id){
     //   console.log('dang sua du lieu');
@@ -169,38 +171,38 @@ class FormEdit extends Component {
                         <div className="ui-information-body">
                           <div className="form-group">
                             <label className="label-input-group">Tên sản phẩm</label>
-                            <input type="text" name="product_name" id="product_name" className="form-control" placeholder="Nhập tên sản phẩm" defaultValue={this.props.editItem.product_name} onChange={(event) => this.handleInputChange (event)}/>
+                            <input type="text" name="product_name" id="product_name" className="form-control" placeholder="Nhập tên sản phẩm" defaultValue={this.props.editItem.product_name} onChange={(event) => this.handleInputChange(event)}/>
                           </div>
                           <div className="form-group">
                             <div className="row">
                               <div className="col-sm-6 col-12">
                                 <label className="label-input-group">Giá bán</label>
-                                <input type="text" name="product_price" id="product_price" className="form-control" placeholder="0 ₫" defaultValue={this.props.editItem.product_price} onChange={(event) => this.handleInputChange (event)}/>
+                                <input type="text" name="product_price" id="product_price" className="form-control" placeholder="0 ₫" defaultValue={this.props.editItem.product_price} onChange={(event) => this.handleInputChange(event)}/>
                               </div>
                               <div className="col-sm-6 col-12">
                                 <label className="label-input-group">Giá so sánh</label>
-                                <input type="text" name="comparison_price" id="comparison_price" className="form-control" placeholder="0 ₫" defaultValue={this.props.editItem.comparison_price} onChange={(event) => this.handleInputChange (event)} />
+                                <input type="text" name="comparison_price" id="comparison_price" className="form-control" placeholder="0 ₫" defaultValue={this.props.editItem.comparison_price} onChange={(event) => this.handleInputChange(event)} />
                               </div>
                             </div>
                           </div>
                           <div className="form-group">
                             <label className="label-input-group">Tồn kho</label>
-                            <input type="text" name="quantity" id="quantity" className="form-control" placeholder="Nhập Tồn kho" defaultValue={this.props.editItem.quantity} onChange={(event) => this.handleInputChange (event)} />
+                            <input type="text" name="quantity" id="quantity" className="form-control" placeholder="Nhập Tồn kho" defaultValue={this.props.editItem.quantity} onChange={(event) => this.handleInputChange(event)} />
                           </div>
                           <div className="form-group">
                             <div className="row">
                               <div className="col-sm-6 col-12">
                                 <label className="label-input-group">Nơi xuất xứ</label>
-                                <input type="text" name="vendor" id="vendor" className="form-control" placeholder="Đà lạt" defaultValue={this.props.editItem.vendor} onChange={(event) => this.handleInputChange (event)} />
+                                <input type="text" name="vendor" id="vendor" className="form-control" placeholder="Đà lạt" defaultValue={this.props.editItem.vendor} onChange={(event) => this.handleInputChange(event)} />
                               </div>
                               <div className="col-sm-6 col-12">
                                 <label className="label-input-group">Loại sản phẩm</label>
-                                <input type="text" name="type_product" id="type_product" className="form-control" placeholder="dưa leo" defaultValue={this.props.editItem.type_product} onChange={(event) => this.handleInputChange (event)} />
+                                <input type="text" name="type_product" id="type_product" className="form-control" placeholder="dưa leo" defaultValue={this.props.editItem.type_product} onChange={(event) => this.handleInputChange(event)} />
                               </div>
                             </div>
                           </div>
                           <div className="form-group">
-                            <textarea className="form-control" name="description" id="description" rows={3} placeholder="Mô tả sản phẩm"  defaultValue={this.props.editItem.description} onChange={(event) => this.handleInputChange (event)} />
+                            <textarea className="form-control" name="description" id="description" rows={3} placeholder="Mô tả sản phẩm"  defaultValue={this.props.editItem.description} onChange={(event) => this.handleInputChange(event)} />
                           </div>
                         </div>
                       </div>
@@ -217,7 +219,7 @@ class FormEdit extends Component {
                               <div><button className="btn btn-link ml-3"><span>Thêm bằng URL</span></button></div>
                             </div>
                           </div>
-                          <div className="p-4"><input type="text" className="form-control" name="product_image" id="product_image"  defaultValue={this.props.editItem.product_image} onChange={(event) => this.isChange(event)} /></div>
+                          <div className="p-4"><input type="text" className="form-control" name="product_image" id="product_image"  defaultValue={this.props.editItem.product_image} onChange={(event) => this.handleInputChange(event)} /></div>
                           <ul className="p-4 product-photo-box">
                             <li className="ui-product-photo-item">
                               <div className="ui-product-photo-box">
@@ -247,7 +249,7 @@ class FormEdit extends Component {
                         </div>
                         <div className="ui-information-body">
                           <div className="form-group px-0 pb-0 col-3">
-                            <input type="text" className="form-control" name="variant" id="variant" placeholder="variant"  defaultValue={this.props.editItem.variant} onChange={(event) => this.isChange(event)} />
+                            <input type="text" className="form-control" name="variant" id="variant" placeholder="variant"  defaultValue={this.props.editItem.variant} onChange={(event) => this.handleInputChange(event)} />
                           </div>
                         </div>
                       </div>
@@ -264,7 +266,7 @@ class FormEdit extends Component {
                           </div>
                           <div className="ui-information-body">
                             <div className="form-group px-0 pb-0">
-                              <input type="text" className="form-control" name="collection" id="collection"  defaultValue={this.props.editItem.collection} onChange={(event) => this.isChange(event)} />
+                              <input type="text" className="form-control" name="collection" id="collection"  defaultValue={this.props.editItem.collection} onChange={(event) => this.handleInputChange(event)} />
                             </div>
                           </div>
                         </div>
