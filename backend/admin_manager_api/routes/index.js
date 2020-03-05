@@ -37,7 +37,7 @@ router.post('/api/add', function(req, res, next) {
     product_vendor = req.body.vendor,
     type_product = req.body.type_product,
     product_variant = req.body.variant,
-    p_collection = req.body.collection;
+    p_collection = req.body.collection,
     comparison_price = req.body.comparison_price;
     sql = "insert into product_info (product_name,product_price,description,quantity,product_image,vendor,type_product,variant,collection,comparison_price) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)";
     pool.query(sql,[product_name,product_price,description,quantity,product_image,product_vendor,type_product,product_variant,p_collection,comparison_price],(err,result) => {

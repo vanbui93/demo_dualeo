@@ -295,7 +295,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     isEdit: state.isEdit,
     editItem: state.editItem,
-    data: state.data
+    products: state.products
   }
 }
 

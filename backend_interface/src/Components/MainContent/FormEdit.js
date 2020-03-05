@@ -41,15 +41,6 @@ class FormEdit extends Component {
     }
   }
 
-  // UNSAFE_componentDidMount() {
-  //   axios.get('http://localhost:4000/getproduct')
-  //   .then((response) => response.data)
-  //   .catch((error) => { console.log(error.response); return Promise.reject(error.response)})
-  // }
-  
-  
-  
-
   printTitle = () => {
     if(this.props.isEdit){
       return <h3>Cập nhật</h3>
@@ -64,7 +55,6 @@ class FormEdit extends Component {
     this.setState({
       [name]: value
     })
-    console.log(value);
     
   }
 
@@ -88,7 +78,6 @@ class FormEdit extends Component {
     callApi(`api/edit/${updateId}`,'PUT', editObject)
     .then(res => {
       let key = this.state.id;
-      console.log(key);
       
       this.setState(prevState => ({
         products: prevState.products.map(
