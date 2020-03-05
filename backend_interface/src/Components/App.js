@@ -4,13 +4,13 @@ import './App.css';
 import Sidebar from './MenuSidebar/Sidebar';
 import { connect } from 'react-redux';
 import DieuHuongUrl from './router/DieuHuongUrl';
-import FormEdit from './MainContent/FormEdit';
+import FormAdd from './MainContent/FormAdd';
 
 class App extends React.Component {
  
   hienThiFrom = () => {
     if(this.props.isEdit){
-      return <FormEdit/>
+      return <FormAdd/>
     } else {
       return <DieuHuongUrl/>
     }

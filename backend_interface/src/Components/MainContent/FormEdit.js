@@ -97,7 +97,8 @@ class FormEdit extends Component {
         )
       }));
     })
-
+    
+  }
     // if(this.state.id){
     //   console.log('dang sua du lieu');
     //   var editObject = {};
@@ -119,7 +120,7 @@ class FormEdit extends Component {
     // } else {
     //   this.props.alertOn("Đã thêm mới thành công","warning");
     // }
-  }
+ 
 
   render() {
     return (

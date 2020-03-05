@@ -26,8 +26,7 @@ class ProductList extends Component {
     
     callApi(`api/delete/${deleteId}`,'DELETE', null)
     .then(res => {
-      console.log(deleteId);
-      
+      // console.log(deleteId);      
       this.setState(prevState => ({
           products: prevState.products.filter(elm => elm.id !== deleteId)
         }))
