@@ -67,46 +67,46 @@ class FormAdd extends Component {
     // gán name của form cho state
     var {id,txtName,txtPrice,txtDescription,txtQuantity,txtImage,txtVendor,txtType,txtVariant,txtCollection,txtComparePrice} = this.state;
     if(this.props.isEdit) {
-      const editObject = {
-        id : this.state.id,
-        product_name: this.state.txtName,
-        product_price: this.state.txtPrice,
-        description: this.state.txtDescription,
-        quantity: this.state.txtQuantity,
-        product_image: this.state.txtImage,
-        vendor:this.state.txtVendor,
-        type_product:this.state.txtType,
-        variant: this.state.txtVariant,
-        collection: this.state.txtCollection,
-        comparison_price: this.state.txtComparePrice
-      };
-      const updateId = this.state.id
-      callApi(`api/edit/${updateId}`,'PUT', editObject)
-      .then(res => {
-        let key = this.state.id;
-        this.setState(prevState => ({
-          products: prevState.products.map(
-            elm => elm.id === key? {
-              ...elm,
-              product_name: this.state.txtName,
-              product_price: this.state.txtPrice,
-              description: this.state.txtDescription,
-              quantity: this.state.txtQuantity,
-              product_image: this.state.txtImage,
-              vendor:this.state.txtVendor,
-              type_product:this.state.txtType,
-              variant: this.state.txtVariant,
-              collection: this.state.txtCollection,
-              comparison_price: this.state.txtComparePrice
-            }: elm
-          )
-        }));
-      })
-      this.props.editDataStore(editObject);
-      this.props.changeEditState(); // Tắt form đi
-      this.props.alertOn("Đã sửa thành công","success");
+          const editObject = {
+          id : id,
+          product_name: txtName,
+          product_price: txtPrice,
+          description: txtDescription,
+          quantity: txtQuantity,
+          product_image: txtImage,
+          vendor:txtVendor,
+          type_product:txtType,
+          variant: txtVariant,
+          collection: txtCollection,
+          comparison_price: txtComparePrice
+        };
+        const updateId = this.state.id
+        callApi(`api/edit/${updateId}`,'PUT', editObject)
+        .then(res => {
+          let key = this.state.id;
+          this.setState(prevState => ({
+            products: prevState.products.map(
+              elm => elm.id === key? {
+                ...elm,
+                product_name: txtName,
+                product_price: txtPrice,
+                description: txtDescription,
+                quantity: txtQuantity,
+                product_image: txtImage,
+                vendor:txtVendor,
+                type_product:txtType,
+                variant: txtVariant,
+                collection: txtCollection,
+                comparison_price: txtComparePrice
+              }: elm
+            )
+          }));
+        })
+        this.props.editDataStore(editObject);
+        this.props.changeEditState(); // Tắt form đi
+        this.props.alertOn("Đã sửa thành công","success");
     } else {
-      callApi('api/add','POST', {
+        callApi('api/add','POST', {
         product_name: txtName,
         product_price: txtPrice,
         description: txtDescription,
@@ -120,6 +120,7 @@ class FormAdd extends Component {
       }).then(res => {
         console.log(res);
         history.goBack();
+        this.props.alertOn("Đã thêm mới thành công","warning");
       })
     }
     
