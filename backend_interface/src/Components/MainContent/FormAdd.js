@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom'
 import callApi from './../../ConnectAxios/apiCaller'
+import { matchPath } from "react-router";
 
 class FormAdd extends Component {
 
@@ -20,27 +21,37 @@ class FormAdd extends Component {
       txtVariant:'',
       txtCollection:'',
       txtComparePrice:'',
-      products: []
+      products: [],
+      data: null
     }
+ 
   }
-  UNSAFE_componentWillMount() {
-    if(this.props.editItem){      //case sửa: kiểm tra xem editItem có dữ liệu không
-      this.setState({
-        product_name: this.props.editItem.product_name,
-        product_price: this.props.editItem.product_price,
-        description: this.props.editItem.description,
-        quantity: this.props.editItem.quantity,
-        product_image: this.props.editItem.product_image,
-        vendor: this.props.editItem.vendor,
-        type_product: this.props.editItem.type_product,
-        variant: this.props .editItem.variant,
-        collection: this.props.editItem.collection,
-        comparison_price: this.props.editItem.collection,
-        id: this.props.editItem.id
-      });
-    }
-  }
+ componentDidMount() {
+    const { match } = this.props;
 
+    if(match.params.id !== undefined){
+      var id_m = match.params.id;
+      callApi(`api/edit/${id_m}`,'GET',null).then(res =>{
+//       //   // console.log(products);
+        var products = res.data[0];
+        this.setState({
+          id:products.id,
+          txtName:products.product_name,
+          txtPrice:products.product_price,
+          txtDescription:products.description,
+          txtQuantity:products.quantity,  
+          txtImage:products.product_image,
+          txtVendor:products.vendor,
+          txtType:products.type_product,
+          txtVariant:products.variant,
+          txtCollection:products.collection,
+          txtComparePrice:products.comparison_price
+        })
+      })
+    }
+  
+}
+  
   printTitle = () => {
     if(this.props.isEdit){
       return <h3>Cập nhật</h3>
@@ -66,47 +77,11 @@ class FormAdd extends Component {
     var {history} = this.props;
     // gán name của form cho state
     var {id,txtName,txtPrice,txtDescription,txtQuantity,txtImage,txtVendor,txtType,txtVariant,txtCollection,txtComparePrice} = this.state;
-    if(this.props.isEdit) {
-          const editObject = {
-          id : id,
-          product_name: txtName,
-          product_price: txtPrice,
-          description: txtDescription,
-          quantity: txtQuantity,
-          product_image: txtImage,
-          vendor:txtVendor,
-          type_product:txtType,
-          variant: txtVariant,
-          collection: txtCollection,
-          comparison_price: txtComparePrice
-        };
-        const updateId = this.state.id
-        callApi(`api/edit/${updateId}`,'PUT', editObject)
-        .then(res => {
-          let key = this.state.id;
-          this.setState(prevState => ({
-            products: prevState.products.map(
-              elm => elm.id === key? {
-                ...elm,
-                product_name: txtName,
-                product_price: txtPrice,
-                description: txtDescription,
-                quantity: txtQuantity,
-                product_image: txtImage,
-                vendor:txtVendor,
-                type_product:txtType,
-                variant: txtVariant,
-                collection: txtCollection,
-                comparison_price: txtComparePrice
-              }: elm
-            )
-          }));
-        })
-        this.props.editDataStore(editObject);
-        this.props.changeEditState(); // Tắt form đi
-        this.props.alertOn("Đã sửa thành công","success");
-    } else {
-        callApi('api/add','POST', {
+    
+    if(id) {
+      console.log('update');
+        const editObject = {
+        id : id,
         product_name: txtName,
         product_price: txtPrice,
         description: txtDescription,
@@ -117,15 +92,41 @@ class FormAdd extends Component {
         variant: txtVariant,
         collection: txtCollection,
         comparison_price: txtComparePrice
-      }).then(res => {
-        console.log(res);
+      };
+      const updateId = editObject.id
+      callApi(`api/edit/${updateId}`,'PUT', editObject)
+      .then(res => {
+        // console.log(res);
         history.goBack();
-        this.props.alertOn("Đã thêm mới thành công","warning");
       })
-    }
+      // this.props.editDataStore(editObject);
+      // this.props.changeEditState(); // Tắt form đi
+      this.props.alertOn("Đã sửa thành công","success");
+    }  else {
+      var item ={};
+      item.product_name = txtName;
+      item.product_price = txtPrice;
+      item.description = txtDescription;
+      item.quantity = txtQuantity;
+      item.product_image = txtImage;
+      item.vendor = txtVendor;
+      item.type_product = txtType;
+      item.variant = txtVariant;
+      item.collection = txtCollection;
+      item.comparison_price = txtComparePrice;
+        callApi('api/add','POST', item
+        ).then(res => {
+          history.goBack();
+          // console.log(res);
+        })
+    //   this.props.addDataStore(item);
+      this.props.changeEditState(); // Tắt form đi
+    //   this.props.alertOn("Đã thêm mới thành công","warning");
+    // }
     
     
   }
+}
 
   render() {
     return (
@@ -171,7 +172,7 @@ class FormAdd extends Component {
                               type="text" 
                               name="txtName" 
                               id="product_name" className="form-control" placeholder="Nhập tên sản phẩm" 
-                              defaultValue={this.props.editItem.product_name} 
+                              defaultValue ={this.state.txtName}
                               onChange={(event) => this.handleInputChange (event)}
                             />
                           </div>
@@ -183,7 +184,7 @@ class FormAdd extends Component {
                                   type="text" 
                                   name="txtPrice" 
                                   id="product_price" className="form-control"placeholder="0 ₫" 
-                                  defaultValue={this.props.editItem.product_price} 
+                                  defaultValue ={this.state.txtPrice}
                                   onChange={(event) => this.handleInputChange (event)}/>
                               </div>
                               <div className="col-sm-6 col-12">
@@ -192,7 +193,7 @@ class FormAdd extends Component {
                                   type="text" 
                                   name="txtComparePrice" 
                                   id="comparison_price" className="form-control" placeholder="0 ₫" 
-                                  defaultValue={this.props.editItem.comparison_price} 
+                                  defaultValue ={this.state.txtComparePrice}
                                   onChange={(event) => this.handleInputChange (event)} />
                               </div>
                             </div>
@@ -203,7 +204,7 @@ class FormAdd extends Component {
                               type="text" 
                               name="txtQuantity" 
                               id="quantity" className="form-control" placeholder="Nhập Tồn kho" 
-                              defaultValue={this.props.editItem.quantity} 
+                              defaultValue={this.state.txtQuantity} 
                               onChange={(event) => this.handleInputChange (event)} />
                           </div>
                           <div className="form-group">
@@ -215,7 +216,7 @@ class FormAdd extends Component {
                                   name="txtVendor" id="vendor" 
                                   className="form-control" 
                                   placeholder="Đà lạt" 
-                                  defaultValue={this.props.editItem.vendor} 
+                                  defaultValue={this.state.txtVendor} 
                                   onChange={(event) => this.handleInputChange (event)} />
                               </div>
                               <div className="col-sm-6 col-12">
@@ -225,7 +226,7 @@ class FormAdd extends Component {
                                   name="txtType" 
                                   id="type_product" className="form-control" 
                                   placeholder="dưa leo" 
-                                  defaultValue={this.props.editItem.type_product} 
+                                  defaultValue={this.state.txtType} 
                                   onChange={(event) => this.handleInputChange (event)} />
                               </div>
                             </div>
@@ -234,7 +235,7 @@ class FormAdd extends Component {
                             <textarea className="form-control" id="description"
                               name="txtDescription" 
                               rows={3} placeholder="Mô tả sản phẩm"  
-                              defaultValue={this.props.editItem.description} 
+                              defaultValue={this.state.txtDescription} 
                               onChange={(event) => this.handleInputChange (event)} />
                           </div>
                         </div>
@@ -257,12 +258,12 @@ class FormAdd extends Component {
                               type="text" 
                               className="form-control" id="product_image"
                               name="txtImage" 
-                              defaultValue={this.props.editItem.product_image} 
+                              defaultValue={this.state.txtImage} 
                               onChange={(event) => this.handleInputChange(event)} /></div>
                           <ul className="p-4 product-photo-box">
                             <li className="ui-product-photo-item">
                               <div className="ui-product-photo-box">
-                                <img src={this.props.editItem.product_image} className="ui-product-photo-item__image" alt="" width="200"/>
+                                <img src={this.state.txtImage} className="ui-product-photo-item__image" alt="" width="200"/>
                               </div>
                             </li>
                           </ul>
@@ -291,7 +292,7 @@ class FormAdd extends Component {
                             <input type="text" className="form-control" 
                               name="txtVariant" id="variant" 
                               placeholder="variant"  
-                              defaultValue={this.props.editItem.variant} 
+                              defaultValue={this.state.txtVariant} 
                               onChange={(event) => this.handleInputChange(event)} />
                           </div>
                         </div>
@@ -311,7 +312,7 @@ class FormAdd extends Component {
                             <div className="form-group px-0 pb-0">
                               <input type="text" className="form-control" 
                                 name="txtCollection" id="collection"  
-                                defaultValue={this.props.editItem.collection} 
+                                defaultValue={this.state.txtCollection} 
                                 onChange={(event) => this.handleInputChange(event)} />
                             </div>
                           </div>
@@ -340,8 +341,8 @@ const mapStateToProps = (state, ownProps) => {
 //Truyền EDIT_DATA vào để gom dữ liệu -> đẩy EDIT_DATA lên store
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getData: (data) => {
-      dispatch({type:'getData',data})
+    addDataStore: (getItem) => {
+      dispatch({type: "ADD_DATA",getItem})
     },
     editDataStore: (getItem) => {
       dispatch({type: "EDIT_DATA",getItem})

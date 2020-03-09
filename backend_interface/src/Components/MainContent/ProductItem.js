@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import {Link} from 'react-router-dom'
+import { useHistory } from "react-router-dom";
+
 
 class ProductItem extends Component {  
   chuyendoiUrl = (str) => {
@@ -33,10 +36,10 @@ class ProductItem extends Component {
 
 
 
-  onClickAction = () => {
-    this.props.changeEditState();
-    this.props.getEditData(this.props.productEdit);
-  }
+  // onClickAction = () => {
+  //   this.props.changeEditState();
+  //   this.props.getEditData(this.props.productEdit);
+  // }
 
   handleDelete = (deleteId) => {
     if(confirm('Bạn có chắc chắn muốn xóa ?')){ //eslint-disable-line
@@ -71,7 +74,11 @@ class ProductItem extends Component {
         <td className="text-normal">{this.props.vendor}</td>
         <td>
           <div className="btn-group">
-            <button className="btn btn-warning" onClick={() => this.onClickAction()}>Sửa</button>
+            <Link className="btn btn-warning"
+            to={`/admin/edit/${this.props.id}`}>
+            Sửa
+            </Link>
+            {/* <button className="btn btn-warning" onClick={() => this.onClickAction()}>Sửa</button> */}
             <button className="btn btn-danger" onClick={() => this.handleDelete(this.props.id)}>Xóa</button>
           </div>
         </td>
