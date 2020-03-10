@@ -1,6 +1,5 @@
 // var express = require('express');
 // var router = express.Router();
-import callApi from './../ConnectAxios/apiCaller'
 
 var redux = require('redux');
 

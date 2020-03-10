@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom'
 import callApi from './../../ConnectAxios/apiCaller'
-import { matchPath } from "react-router";
 
 class FormAdd extends Component {
 
@@ -26,10 +25,9 @@ class FormAdd extends Component {
     }
  
   }
- componentDidMount() {
+  componentDidMount() {
     const { match } = this.props;
-
-    if(match.params.id !== undefined){
+    if(this.props.match && this.props.match.params.id){
       var id_m = match.params.id;
       callApi(`api/edit/${id_m}`,'GET',null).then(res =>{
 //       //   // console.log(products);
