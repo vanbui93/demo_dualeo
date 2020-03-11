@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import ProductItem from './ProductItem';
 import { connect } from 'react-redux';
-import callApi from './../../ConnectAxios/apiCaller'
+import callApi from './../../ConnectAxios/apiCaller';
+import { actGetProductsRequest } from './../../actions/index';
+import products from './../../reducers/products';
+
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -11,22 +14,14 @@ class ProductList extends Component {
     }
   }
 
-  UNSAFE_componentWillMount() {
-    callApi('api/products','GET',null).then(res =>{
-      this.setState({
-        products:res.data
-      })
-    })
-  }
+  componentDidMount() {
+    this.props.getAllProducts();
+  } 
   
   handleDel = (deleteId) => {
-    // callApi(`api/delete`, 'DELETE', null).then(res =>{
-    //   console.log(res);
-    // });
-    
     callApi(`api/delete/${deleteId}`,'DELETE', null)
-    .then(res => {
-      // console.log(deleteId);      
+    .then(res => {  
+      // console.log(deleteId);
       this.setState(prevState => ({
           products: prevState.products.filter(elm => elm.id !== deleteId)
         }))
@@ -34,17 +29,20 @@ class ProductList extends Component {
     
   }
 
-  // In dữ liệu trong api sau khi nhận được ra
-  getDulieu = () => {
-    if(this.state.products !== null){
-      return this.state.products.map((value,key) => (
+ // In dữ liệu trong api sau khi nhận được ra
+ getDulieu = (products) => {
+  var result =null;
+  console.log(products);
+  
+  if(products.length > 0 ) {
+    result = products.map((value,key) => {
+      return (
         <ProductItem key={key}
         id={value.id}
         product_name={value.product_name}
         description={value.description}
         quantity={value.quantity}
         product_image={value.product_image}
-        product_link={value.product_link}
         vendor={value.vendor}
         type_product={value.type_product}
         variant={value.variant}
@@ -52,11 +50,15 @@ class ProductList extends Component {
         productEdit={value}
         handleDelete = {this.handleDel}
         />
-      ))      
-    }
+      )
+    })
   }
+  return result;
+}
+  
 
   render() {
+    var {products} = this.state // lấy state của product ra để truyền giá trị vào getDulieu    
     return (
       <div className="padding-container">
         <div className="table-list-product-list">
@@ -72,7 +74,7 @@ class ProductList extends Component {
                 </tr>
               </thead>
               <tbody>
-                {this.getDulieu()}
+                {this.getDulieu(products)}
               </tbody>
             </table>
           </div>
@@ -80,20 +82,28 @@ class ProductList extends Component {
       </div>
     )
   }
+
+  
+  
+ 
+
+
+}
+
+const mapStateToProps = (state, props) => {
+  return {
+    products: state.products  //lấy tất cả product từ store về gán cho product
+  }
 }
 
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+//Truyền lên product hiện tại trong trang lên store để lưu trữ
+const mapDispatchToProps = (dispatch, props) => {
   return {
-    changeEditState: () => {
-      dispatch({
-        type: "change_isEdit"
-      })
-    },
-    getProductproducts: (products) => {
-      dispatch({type: "RECEIVE_products",products})
+    getAllProducts: () => {
+      dispatch(actGetProductsRequest())
     }
   }
 }
 
-export default connect(mapDispatchToProps)(ProductList);
+export default connect(mapStateToProps,mapDispatchToProps)(ProductList);

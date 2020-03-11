@@ -29,7 +29,7 @@ class FormAdd extends Component {
     const { match } = this.props;
     if(this.props.match && this.props.match.params.id){
       var id_m = match.params.id;
-      callApi(`api/edit/${id_m}`,'GET',null).then(res =>{
+      callApi(`api/products/${id_m}`,'GET',null).then(res =>{
 //       //   // console.log(products);
         var products = res.data[0];
         this.setState({
@@ -94,7 +94,7 @@ class FormAdd extends Component {
       const updateId = editObject.id
       callApi(`api/edit/${updateId}`,'PUT', editObject)
       .then(res => {
-        // console.log(res);
+        console.log(res);
         history.goBack();
       })
       // this.props.editDataStore(editObject);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom'
-
+import { actGetProducts } from './../../actions/index';
 
 class ProductItem extends Component {  
   chuyendoiUrl = (str) => {
@@ -31,10 +31,12 @@ class ProductItem extends Component {
     // return
     return str;
   }
+
   
-
-
-
+  componentWillMount() {
+    
+  }
+  
   // onClickAction = () => {
   //   this.props.changeEditState();
   //   this.props.getEditData(this.props.productEdit);
@@ -88,31 +90,14 @@ class ProductItem extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    editItem: state.editItem
+    products: state.products  //lấy tất cả product từ store về gán cho product
   }
 }
-
+//Truyền lên product hiện tại trong trang lên store để lưu trữ
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    changeEditState: () => {
-      dispatch({
-        type: "change_isEdit"
-      })
-    },
-    getEditData: (editOject) => {
-      dispatch({
-        type: "GET_EDIT_DATA",editOject
-      })
-    },
-    alertOn: (alertContent,alertType) => {
-      dispatch({
-        type: "ALERT_ON",alertContent,alertType
-      })
-    },
-    alertOff: () => {
-      dispatch({
-        type: "ALERT_OFF"
-      })
+    getAllProducts: (products) => {
+      dispatch(actGetProducts(products))
     }
   }
 }

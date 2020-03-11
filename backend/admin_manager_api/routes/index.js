@@ -19,7 +19,7 @@ router.get('/api/products', function(req, res) {
         return console.error('error running query', err);
       } else {   // Nếu thành công trả về response
         // console.log(response.rows); //console chỉ xem được trên backend thôi
-        return res.send(response.rows);  //send dữ liệu phía api
+        res.send(response.rows);  //send dữ liệu phía api
       }
       // pool.end(); // đóng cổng kết nói csdl
     })
@@ -67,7 +67,7 @@ router.delete('/api/delete/:id', (req, res) => {
 });
 
 // /* GET product page. */
-router.get('/api/edit/:id', function(req, res) {
+router.get('/api/products/:id', function(req, res) {
   pool.connect(function(error){
     var sql = "SELECT * FROM product_info " + "WHERE id='"+req.params.id+"'";
     pool.query(sql, (err, results) => {
@@ -87,14 +87,14 @@ router.put('/api/edit/:id', function(req, res) {
     var sql = "UPDATE product_info SET " + 
     "product_name = '"+req.body.product_name+"'," + 
     "product_price = '"+req.body.product_price+"'," + 
-    // "description = '"+req.body.description+"'," + 
-    // "quantity = '"+req.body.quantity+"'," + 
+    "description = '"+req.body.description+"'," + 
+    "quantity = '"+req.body.quantity+"'," + 
     "product_image = '"+req.body.product_image+"'" + 
-    // "vendor = '"+req.body.vendor+"'," + 
-    // "type_product = '"+req.body.type_product+"'," + 
-    // "variant = '"+req.body.variant+"'," + 
-    // "collection = '"+req.body.collection+"'," + 
-    // "comparison_price = '"+req.body.comparison_price+"'" + 
+    "vendor = '"+req.body.vendor+"'," + 
+    "type_product = '"+req.body.type_product+"'," + 
+    "variant = '"+req.body.variant+"'," + 
+    "collection = '"+req.body.collection+"'," + 
+    "comparison_price = '"+req.body.comparison_price+"'" + 
     "WHERE id='"+req.params.id+"'";
     pool.query(sql, function(err, results) {
       if(err) {
