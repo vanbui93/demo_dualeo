@@ -1,17 +1,26 @@
 // var express = require('express');
 // var router = express.Router();
 import { combineReducers } from 'redux';
+import * as Types from './../constants/ActionType'
 import products from './products'
-var redux = require('redux');
 
+var noteinitialState = {
+  isEdit:false
+}
+
+const commonStore = (state = noteinitialState, action) => {
+  switch (action.type) {
+    case Types.CHANGE_EDIT:
+      return {...state, isEdit: !state.isEdit};
+    default:
+      return {...state};
+  }
+}
 const allReducer = combineReducers({
-  products
+  products,
+  commonStore
 })
 
-var store1 = redux.createStore(allReducer);
 
-store1.subscribe(function(){
-  console.log(JSON.stringify(store1.getState()));
-})
 
-export default store1;
+export default allReducer;

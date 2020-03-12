@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom'
-import { actGetProducts } from './../../actions/index';
+import { actGetProductsRequest } from './../../actions/index';
 
 class ProductItem extends Component {  
   chuyendoiUrl = (str) => {
@@ -32,9 +32,12 @@ class ProductItem extends Component {
     return str;
   }
 
-  
-  componentWillMount() {
-    
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: '',
+      products: []
+    }
   }
   
   // onClickAction = () => {
@@ -88,18 +91,18 @@ class ProductItem extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    products: state.products  //lấy tất cả product từ store về gán cho product
-  }
-}
-//Truyền lên product hiện tại trong trang lên store để lưu trữ
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    getAllProducts: (products) => {
-      dispatch(actGetProducts(products))
-    }
-  }
-}
+// const mapStateToProps = (state, props) => {
+//   return {
+//     products: state.products  //lấy tất cả product từ store về gán cho product
+//   }
+// }
+// //Truyền lên product hiện tại trong trang lên store để lưu trữ
+// const mapDispatchToProps = (dispatch, props) => {
+//   return {
+//     getAllProducts: () => {
+//       dispatch(actGetProductsRequest())
+//     }
+//   }
+// }
 
-export default connect(mapStateToProps,mapDispatchToProps)(ProductItem);
+export default (ProductItem);

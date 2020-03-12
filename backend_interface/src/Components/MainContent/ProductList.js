@@ -5,6 +5,7 @@ import callApi from './../../ConnectAxios/apiCaller';
 import { actGetProductsRequest } from './../../actions/index';
 import products from './../../reducers/products';
 
+
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -15,8 +16,10 @@ class ProductList extends Component {
   }
 
   componentDidMount() {
-    this.props.getAllProducts();
-  } 
+    this.setState({
+      products: this.props.getAllProducts()
+    })
+  }
   
   handleDel = (deleteId) => {
     callApi(`api/delete/${deleteId}`,'DELETE', null)
@@ -31,11 +34,9 @@ class ProductList extends Component {
 
  // In dữ liệu trong api sau khi nhận được ra
  getDulieu = (products) => {
-  var result =null;
-  console.log(products);
-  
-  if(products.length > 0 ) {
-    result = products.map((value,key) => {
+ var result =null;
+  if(this.props.products.length > 0 ) {
+    result = this.props.products.map((value,key) => {
       return (
         <ProductItem key={key}
         id={value.id}
@@ -49,6 +50,7 @@ class ProductList extends Component {
         collection={value.collection}
         productEdit={value}
         handleDelete = {this.handleDel}
+        products = {this.props.products}
         />
       )
     })
@@ -57,8 +59,7 @@ class ProductList extends Component {
 }
   
 
-  render() {
-    var {products} = this.state // lấy state của product ra để truyền giá trị vào getDulieu    
+  render() {    
     return (
       <div className="padding-container">
         <div className="table-list-product-list">
@@ -90,7 +91,7 @@ class ProductList extends Component {
 
 }
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = state => {
   return {
     products: state.products  //lấy tất cả product từ store về gán cho product
   }

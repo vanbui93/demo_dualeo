@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import DieuHuongUrl from './router/DieuHuongUrl';
 import FormAdd from './MainContent/FormAdd';
 
+
 class App extends React.Component {
  
   hienThiFrom = () => {
@@ -32,7 +33,8 @@ class App extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isEdit : state.isEdit
+    isEdit : state.isEdit,
+    products: state.products
   }
 }
 
