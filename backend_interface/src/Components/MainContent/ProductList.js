@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ProductItem from './ProductItem';
 import { connect } from 'react-redux';
 import callApi from './../../ConnectAxios/apiCaller';
-import { actGetProductsRequest } from './../../actions/index';
+import { actGetProductsRequest,actDeleteProductRequest } from './../../actions/index';
 import products from './../../reducers/products';
 
 
@@ -22,13 +22,16 @@ class ProductList extends Component {
   }
   
   handleDel = (deleteId) => {
-    callApi(`api/delete/${deleteId}`,'DELETE', null)
-    .then(res => {  
-      // console.log(deleteId);
-      this.setState(prevState => ({
-          products: prevState.products.filter(elm => elm.id !== deleteId)
-        }))
-      })
+
+    this.props.handleDeleteProduct(deleteId)
+
+    // callApi(`api/delete/${deleteId}`,'DELETE', null)
+    // .then(res => {  
+    //   // console.log(deleteId);
+    //   this.setState(prevState => ({
+    //       products: prevState.products.filter(elm => elm.id !== deleteId)
+    //     }))
+    //   })
     
   }
 
@@ -103,6 +106,9 @@ const mapDispatchToProps = (dispatch, props) => {
   return {
     getAllProducts: () => {
       dispatch(actGetProductsRequest())
+    },
+    handleDeleteProduct : (id) => {
+      dispatch(actDeleteProductRequest(id))
     }
   }
 }

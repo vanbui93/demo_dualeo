@@ -15,3 +15,21 @@ export const actGetProducts = (products) => {
     products
   }
 }
+
+
+//delete trên server rồi mới delete trong store (dispatch action trong store sau)
+// có request thì gọi lên server, ko có request thì dùng dispatch để gọi
+export const actDeleteProductRequest = (id) => {
+  return dispatch => {
+    return callApi(`api/delete/${id}`,'DELETE', null).then(res => {  
+      dispatch(actDeleteProduct(id));
+    })
+  }
+}
+
+export const actDeleteProduct = (id) => {
+  return {
+    type: Types.DELETE_PRODUCT,
+    id:id
+  }
+}

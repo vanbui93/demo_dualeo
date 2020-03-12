@@ -39,11 +39,12 @@ class ProductItem extends Component {
       products: []
     }
   }
+
+  componentDidMount() {
+    
+  }
   
-  // onClickAction = () => {
-  //   this.props.changeEditState();
-  //   this.props.getEditData(this.props.productEdit);
-  // }
+  
 
   handleDelete = (deleteId) => {
     if(confirm('Bạn có chắc chắn muốn xóa ?')){ //eslint-disable-line
@@ -58,6 +59,10 @@ class ProductItem extends Component {
     // this.props.alertOn("Xóa thành công ghi chú  '"+ this.props.productEdit.id + "'","danger"); 
   }
 
+  // onClickAction = () => {
+  //   this.props.changeEditState();
+  //   this.props.getEditData(this.props.productEdit);
+  // }
   render() {
     return (
       <tr id={this.props.product_id}>

@@ -5,12 +5,14 @@ var initialState = {
 }
 
 const products = (state = initialState, action) => {
+  var deleteId = action.id;
   switch (action.type) {
     case Types.FETCH_PRODUCTS:
       state = action.products;
       return [...state];
-    case Types.CHANGE_EDIT:
-      return {...state, isEdit: !state.isEdit};
+    case Types.DELETE_PRODUCT:
+      console.log(products);
+      
     default:
       return state;
   }
