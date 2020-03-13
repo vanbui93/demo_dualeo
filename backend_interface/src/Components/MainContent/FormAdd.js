@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom'
 import callApi from './../../ConnectAxios/apiCaller'
+import {actAddProductRequest} from '../../actions/index'
 
 class FormAdd extends Component {
 
@@ -75,7 +76,19 @@ class FormAdd extends Component {
     var {history} = this.props;
     // gán name của form cho state
     var {id,txtName,txtPrice,txtDescription,txtQuantity,txtImage,txtVendor,txtType,txtVariant,txtCollection,txtComparePrice} = this.state;
-    
+    const itemObject = {
+      id : id,
+      product_name: txtName,
+      product_price: txtPrice,
+      description: txtDescription,
+      quantity: txtQuantity,
+      product_image: txtImage,
+      vendor:txtVendor,
+      type_product:txtType,
+      variant: txtVariant,
+      collection: txtCollection,
+      comparison_price: txtComparePrice
+    };
     if(id) {
       console.log('update');
         const editObject = {
@@ -94,36 +107,15 @@ class FormAdd extends Component {
       const updateId = editObject.id
       callApi(`api/edit/${updateId}`,'PUT', editObject)
       .then(res => {
-        console.log(res);
         history.goBack();
       })
       // this.props.editDataStore(editObject);
       // this.props.changeEditState(); // Tắt form đi
       this.props.alertOn("Đã sửa thành công","success");
     }  else {
-      var item ={};
-      item.product_name = txtName;
-      item.product_price = txtPrice;
-      item.description = txtDescription;
-      item.quantity = txtQuantity;
-      item.product_image = txtImage;
-      item.vendor = txtVendor;
-      item.type_product = txtType;
-      item.variant = txtVariant;
-      item.collection = txtCollection;
-      item.comparison_price = txtComparePrice;
-        callApi('api/add','POST', item
-        ).then(res => {
-          history.goBack();
-          // console.log(res);
-        })
-    //   this.props.addDataStore(item);
-      this.props.changeEditState(); // Tắt form đi
-    //   this.props.alertOn("Đã thêm mới thành công","warning");
-    // }
-    
-    
-  }
+      this.props.onAddProduct(itemObject);
+      history.goBack();
+    }
 }
 
   render() {
@@ -328,38 +320,20 @@ class FormAdd extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state, props) => {
   return {
-    isEdit: state.isEdit,
-    editItem: state.editItem,
     products: state.products
   }
 }
 
 //Truyền EDIT_DATA vào để gom dữ liệu -> đẩy EDIT_DATA lên store
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch, props) => {
   return {
-    addDataStore: (getItem) => {
-      dispatch({type: "ADD_DATA",getItem})
-    },
-    editDataStore: (getItem) => {
-      dispatch({type: "EDIT_DATA",getItem})
-    },
-    changeEditState: () => {
-      dispatch({type: "change_isEdit"})
-    },
-    alertOn: (alertContent,alertType) => {
-      dispatch({
-        type: "ALERT_ON",alertContent,alertType
-      })
-    },
-    alertOff: () => {
-      dispatch({
-        type: "ALERT_OFF"
-      })
+    onAddProduct : (itemObject) => {
+      dispatch(actAddProductRequest(itemObject))
     }
   }
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(FormAdd);
+export default connect(mapStateToProps,mapDispatchToProps)(FormAdd);   
