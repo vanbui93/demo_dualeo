@@ -22,9 +22,7 @@ class ProductList extends Component {
   }
   
   handleDel = (deleteId) => {
-
     this.props.handleDeleteProduct(deleteId)
-
     // callApi(`api/delete/${deleteId}`,'DELETE', null)
     // .then(res => {  
     //   // console.log(deleteId);
@@ -32,7 +30,6 @@ class ProductList extends Component {
     //       products: prevState.products.filter(elm => elm.id !== deleteId)
     //     }))
     //   })
-    
   }
 
  // In dữ liệu trong api sau khi nhận được ra

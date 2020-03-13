@@ -17,8 +17,7 @@ const commonStore = (state = noteinitialState, action) => {
   }
 }
 const allReducer = combineReducers({
-  products,
-  commonStore
+  products
 })
 
 
