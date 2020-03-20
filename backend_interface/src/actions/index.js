@@ -19,18 +19,18 @@ export const actGetProducts = (products) => {
 
 //delete trên server rồi mới delete trong store (dispatch action trong store sau)
 // có request thì gọi lên server, ko có request thì dùng dispatch để gọi
-export const actDeleteProductRequest = (id) => {
+export const actDeleteProductRequest = (deleteId) => {
   return dispatch => {
-    return callApi(`api/delete/${id}`,'DELETE', null).then(res => {  
-      dispatch(actDeleteProduct(id));
+    return callApi(`api/delete/${deleteId}`,'DELETE', null).then(res => {  
+      dispatch(actDeleteProduct(deleteId));
     })
   }
 }
 
-export const actDeleteProduct = (id) => {
+export const actDeleteProduct = (deleteId) => {
   return {
     type: Types.DELETE_PRODUCT,
-    id:id
+    deleteId:deleteId
   }
 }
 
@@ -38,7 +38,7 @@ export const actDeleteProduct = (id) => {
 export const actAddProductRequest = (itemObject) => {
   return dispatch => {
     return callApi('api/add','POST', itemObject).then(res => {
-      dispatch (actAddProduct(res.data))
+      dispatch (actAddProduct(itemObject))
     })
   }
 }
@@ -46,6 +46,6 @@ export const actAddProductRequest = (itemObject) => {
 export const actAddProduct = (itemObject) => {
   return {
     type: Types.ADD_PRODUCT,
-    itemObject
+    itemObject: itemObject
   }
 }

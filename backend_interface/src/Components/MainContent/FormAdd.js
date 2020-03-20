@@ -71,7 +71,9 @@ class FormAdd extends Component {
   handleInsertSubmit = (event) => {
     event.preventDefault();
     event.target.reset();
-    console.log(this.state); // xem thử state điền vào
+   
+
+   
 
     var {history} = this.props;
     // gán name của form cho state
@@ -89,6 +91,8 @@ class FormAdd extends Component {
       collection: txtCollection,
       comparison_price: txtComparePrice
     };
+
+    console.log(itemObject); // xem thử state điền vào
     if(id) {
       console.log('update');
         const editObject = {
