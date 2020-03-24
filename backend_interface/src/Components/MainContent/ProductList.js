@@ -84,10 +84,6 @@ class ProductList extends Component {
     )
   }
 
-  
-  
- 
-
 
 }
 

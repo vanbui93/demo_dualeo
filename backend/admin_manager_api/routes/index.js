@@ -19,7 +19,7 @@ router.get('/api/products', function(req, res) {
         return console.error('error running query', err);
       } else {   // Nếu thành công trả về response
         // console.log(response.rows); //console chỉ xem được trên backend thôi
-        res.send(response.rows);  //send dữ liệu phía api
+        return res.send(response.rows);  //send dữ liệu phía api
       }
       // pool.end(); // đóng cổng kết nói csdl
     })
@@ -45,7 +45,7 @@ router.post('/api/add', function(req, res, next) {
       if(error) {
         return res.send(err);
       } else {
-        res.json({data: result});
+        res.send({data: result});
       }
     })
   })
@@ -75,7 +75,7 @@ router.get('/api/products/:id', function(req, res) {
         return console.error('error running query', err);
       } else {   // Nếu thành công trả về response
         // console.log(response.rows); //console chỉ xem được trên backend thôi
-        return res.send(results.rows);
+        return res.send(results.rows[0]);
       }
       // pool.end(); // đóng cổng kết nói csdl
     })
@@ -83,7 +83,7 @@ router.get('/api/products/:id', function(req, res) {
 });
 
 router.put('/api/edit/:id', function(req, res) {
-  pool.connect(function(error){ 
+  pool.connect(function(error){
     var sql = "UPDATE product_info SET " + 
     "product_name = '"+req.body.product_name+"'," + 
     "product_price = '"+req.body.product_price+"'," + 
@@ -100,7 +100,7 @@ router.put('/api/edit/:id', function(req, res) {
       if(err) {
         return res.send(error);
       } else {
-        return res.json({results});
+        res.send(results);
       }
       });
   })

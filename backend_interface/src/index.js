@@ -3,17 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './Components/App';
 import * as serviceWorker from './serviceWorker';
-import { applyMiddleware } from 'redux';
+import { applyMiddleware, createStore, compose } from 'redux';
 import allReducer from './reducers/index';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-var redux = require('redux');
 
-const store1 = redux.createStore(
+
+const store1 = createStore(
   allReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-  applyMiddleware(thunk)
+  compose(
+    applyMiddleware(thunk),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
+  )
 );
+
 
 store1.subscribe(function(){
   console.log(JSON.stringify(store1.getState()));

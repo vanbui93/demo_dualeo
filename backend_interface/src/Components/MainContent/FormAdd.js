@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import {Link} from 'react-router-dom'
-import callApi from './../../ConnectAxios/apiCaller'
-import {actAddProductRequest} from '../../actions/index'
+import {Link} from 'react-router-dom';
+import { actAddProductRequest, actGetEditProductRequest,actUpdateProductRequest } from './../../actions/index';
 
 class FormAdd extends Component {
 
@@ -29,26 +28,30 @@ class FormAdd extends Component {
   componentDidMount() {
     const { match } = this.props;
     if(this.props.match && this.props.match.params.id){
-      var id_m = match.params.id;
-      callApi(`api/products/${id_m}`,'GET',null).then(res =>{
-//       //   // console.log(products);
-        var products = res.data[0];
-        this.setState({
-          id:products.id,
-          txtName:products.product_name,
-          txtPrice:products.product_price,
-          txtDescription:products.description,
-          txtQuantity:products.quantity,  
-          txtImage:products.product_image,
-          txtVendor:products.vendor,
-          txtType:products.type_product,
-          txtVariant:products.variant,
-          txtCollection:products.collection,
-          txtComparePrice:products.comparison_price
-        })
-      })
+      var updateId = match.params.id;
+      this.props.onEditProduct(updateId);
     }
-  
+}
+
+// sau khi dùng mapStateToProps, nó sẽ chuyển các state trên store thành props nên ở đây sẽ nhận được 1 props
+componentWillReceiveProps(nextProps) {
+  if(nextProps && nextProps.itemEditing){
+    var {itemEditing} = nextProps;
+    // console.log(itemEditing);
+    this.setState({ 
+      id:itemEditing.id,
+      txtName:itemEditing.product_name,
+      txtPrice:itemEditing.product_price,
+      txtDescription:itemEditing.description,
+      txtQuantity:itemEditing.quantity,  
+      txtImage:itemEditing.product_image,
+      txtVendor:itemEditing.vendor,
+      txtType:itemEditing.type_product,
+      txtVariant:itemEditing.variant,
+      txtCollection:itemEditing.collection,
+      txtComparePrice:itemEditing.comparison_price
+    })
+  }
 }
   
   printTitle = () => {
@@ -72,9 +75,6 @@ class FormAdd extends Component {
     event.preventDefault();
     event.target.reset();
    
-
-   
-
     var {history} = this.props;
     // gán name của form cho state
     var {id,txtName,txtPrice,txtDescription,txtQuantity,txtImage,txtVendor,txtType,txtVariant,txtCollection,txtComparePrice} = this.state;
@@ -92,34 +92,14 @@ class FormAdd extends Component {
       comparison_price: txtComparePrice
     };
 
-    console.log(itemObject); // xem thử state điền vào
+    // console.log(itemObject); // xem thử state điền vào
     if(id) {
-      console.log('update');
-        const editObject = {
-        id : id,
-        product_name: txtName,
-        product_price: txtPrice,
-        description: txtDescription,
-        quantity: txtQuantity,
-        product_image: txtImage,
-        vendor:txtVendor,
-        type_product:txtType,
-        variant: txtVariant,
-        collection: txtCollection,
-        comparison_price: txtComparePrice
-      };
-      const updateId = editObject.id
-      callApi(`api/edit/${updateId}`,'PUT', editObject)
-      .then(res => {
-        history.goBack();
-      })
-      // this.props.editDataStore(editObject);
-      // this.props.changeEditState(); // Tắt form đi
-      this.props.alertOn("Đã sửa thành công","success");
+      this.props.onUpdateProduct(itemObject);
+      // this.props.alertOn("Đã sửa thành công","success");
     }  else {
       this.props.onAddProduct(itemObject);
-      history.goBack();
     }
+    history.goBack();
 }
 
   render() {
@@ -326,7 +306,7 @@ class FormAdd extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    products: state.products
+    itemEditing: state.itemEditing  
   }
 }
 
@@ -335,6 +315,12 @@ const mapDispatchToProps = (dispatch, props) => {
   return {
     onAddProduct : (itemObject) => {
       dispatch(actAddProductRequest(itemObject))
+    },
+    onEditProduct : (updateId) => {
+      dispatch(actGetEditProductRequest(updateId))
+    },
+    onUpdateProduct : (itemObject) => {
+      dispatch(actUpdateProductRequest(itemObject));
     }
   }
 }

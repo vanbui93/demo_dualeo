@@ -49,3 +49,33 @@ export const actAddProduct = (itemObject) => {
     itemObject: itemObject
   }
 }
+
+//lấy itemEditing hiển thị ra form sửa
+export const actGetEditProductRequest = (updateId) => {
+  return dispatch => {
+    return callApi(`api/products/${updateId}`,'GET',null).then(res =>{
+      dispatch (actEditProduct(res.data))
+    })
+    }
+}
+export const actEditProduct = (itemObject) => {
+  return {
+    type: Types.EDIT_PRODUCT,
+    itemObject
+  }
+}
+
+//Tiến hành update ở store
+export const actUpdateProductRequest = (itemObject) => {
+  return dispatch => {
+    return callApi(`api/edit/${itemObject.id}`,'PUT', itemObject).then(res => {
+      dispatch (actUpdateProduct(res.data))
+    });
+  }
+}
+export const actUpdateProduct = (itemObject) => {
+  return {
+    type: Types.UPDATE_PRODUCT,
+    itemObject: itemObject
+  }
+}
