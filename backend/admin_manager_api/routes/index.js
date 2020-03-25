@@ -66,7 +66,7 @@ router.delete('/api/delete/:id', (req, res) => {
 })
 });
 
-// /* GET product page. */
+// /* GET product page hiển thị data lên form. */
 router.get('/api/products/:id', function(req, res) {
   pool.connect(function(error){
     var sql = "SELECT * FROM product_info " + "WHERE id='"+req.params.id+"'";
@@ -82,6 +82,8 @@ router.get('/api/products/:id', function(req, res) {
   })
 });
 
+
+//Tiến hành update vào api
 router.put('/api/edit/:id', function(req, res) {
   pool.connect(function(error){
     var sql = "UPDATE product_info SET " + 
@@ -96,12 +98,12 @@ router.put('/api/edit/:id', function(req, res) {
     "collection = '"+req.body.collection+"'," + 
     "comparison_price = '"+req.body.comparison_price+"'" + 
     "WHERE id='"+req.params.id+"'";
-    pool.query(sql, function(err, results) {
-      if(err) {
-        return res.send(error);
-      } else {
-        res.send(results);
+    pool.query(sql, function(error, results) {
+      if (error){
+        return console.error(error.message);
       }
+        console.log('Rows affected:', results.affectedRows);
+      
       });
   })
 
