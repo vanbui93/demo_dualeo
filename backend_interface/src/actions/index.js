@@ -61,7 +61,7 @@ export const actGetEditProductRequest = (updateId) => {
 export const actEditProduct = (itemObject) => {
   return {
     type: Types.EDIT_PRODUCT,
-    itemObject
+    itemObject: itemObject
   }
 }
 

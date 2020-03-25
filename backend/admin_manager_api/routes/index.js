@@ -16,7 +16,7 @@ router.get('/api/products', function(req, res) {
   pool.connect(function(error){
     pool.query('SELECT * FROM product_info', (err, response) => {
       if(error) {  // nếu lỗi thì trả về error
-        return console.error('error running query', err);
+        return res.send(err.message);
       } else {   // Nếu thành công trả về response
         // console.log(response.rows); //console chỉ xem được trên backend thôi
         return res.send(response.rows);  //send dữ liệu phía api
@@ -43,7 +43,7 @@ router.post('/api/add', function(req, res, next) {
     sql = "insert into product_info (product_name,product_price,description,quantity,product_image,vendor,type_product,variant,collection,comparison_price) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)";
     pool.query(sql,[product_name,product_price,description,quantity,product_image,product_vendor,type_product,product_variant,p_collection,comparison_price],(err,result) => {
       if(error) {
-        return res.send(err);
+        return res.send(err.message);
       } else {
         res.send({data: result});
       }
@@ -58,7 +58,7 @@ router.delete('/api/delete/:id', (req, res) => {
     var sql = "DELETE FROM product_info " + "WHERE id='"+req.params.id+"'";
       pool.query(sql, function(err, results) {
         if(err) {
-          return res.send(error);
+          return res.send(error.message);
         } else {
           return res.json({results});
         }
@@ -72,7 +72,7 @@ router.get('/api/products/:id', function(req, res) {
     var sql = "SELECT * FROM product_info " + "WHERE id='"+req.params.id+"'";
     pool.query(sql, (err, results) => {
       if(error) {  // nếu lỗi thì trả về error
-        return console.error('error running query', err);
+        return console.error('error running query', err.message);
       } else {   // Nếu thành công trả về response
         // console.log(response.rows); //console chỉ xem được trên backend thôi
         return res.send(results.rows[0]);
@@ -91,7 +91,7 @@ router.put('/api/edit/:id', function(req, res) {
     "product_price = '"+req.body.product_price+"'," + 
     "description = '"+req.body.description+"'," + 
     "quantity = '"+req.body.quantity+"'," + 
-    "product_image = '"+req.body.product_image+"'" + 
+    "product_image = '"+req.body.product_image+"'," + 
     "vendor = '"+req.body.vendor+"'," + 
     "type_product = '"+req.body.type_product+"'," + 
     "variant = '"+req.body.variant+"'," + 
@@ -102,8 +102,7 @@ router.put('/api/edit/:id', function(req, res) {
       if (error){
         return console.error(error.message);
       }
-        console.log('Rows affected:', results.affectedRows);
-      
+        return res.send(results.affectedRows); 
       });
   })
 
