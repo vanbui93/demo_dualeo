@@ -1,13 +1,12 @@
 import * as Types from './../constants/ActionType'
-var initialState = {
-}
+var initialState = [];
 
 var findIndex = (products, id) => {
   var result = -1;
-  products.forEach((products, index) => {
-    if( products.id === id) {
-      return result = index;
-    }
+  products.forEach((itemObject, index) => {
+      if (itemObject.id === id) {
+          result = index;
+      }
   });
   return result;
 }
@@ -20,18 +19,22 @@ const products = (state = initialState, action) => {
       state = action.products;
       return [...state];
     case Types.DELETE_PRODUCT:
-      index = findIndex(state, deleteId);
-      state.splice(index, 1);
+      state = state.filter(({ id }) => id !== deleteId);
+      // index = findIndex(state, deleteId)
+      // state.splice(index,1);
       return [...state];
     case Types.ADD_PRODUCT:
       state.push(action.itemObject);
       return [...state];
     case Types.UPDATE_PRODUCT:
-      index = findIndex(state, itemObject.id)
+      // state = state.map(elm => elm.id === itemObject.id ? 
+      //   { ...elm, ...action } : elm
+      // );
+      index = findIndex(state, itemObject.id);
       state[index] = itemObject;
       return [...state];
     default:
-      return state;
+      return [...state];
   }
 }
 

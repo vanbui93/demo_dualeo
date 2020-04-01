@@ -54,7 +54,7 @@ export const actAddProduct = (itemObject) => {
 export const actGetEditProductRequest = (updateId) => {
   return dispatch => {
     return callApi(`api/products/${updateId}`,'GET',null).then(res =>{
-      dispatch (actEditProduct(res.data))
+      dispatch (actEditProduct(res.data[0]))
     })
     }
 }
@@ -68,14 +68,14 @@ export const actEditProduct = (itemObject) => {
 //Tiến hành update ở store
 export const actUpdateProductRequest = (itemObject) => {
   return dispatch => {
-    return callApi(`api/edit/${itemObject.id}`,'PUT', itemObject).then(res => {
-      dispatch (actUpdateProduct(res.data))
+    return callApi(`api/products/${itemObject.id}`,'PUT', itemObject).then(res => {
+      dispatch (actUpdateProduct(res.data[0]))
     });
   }
 }
 export const actUpdateProduct = (itemObject) => {
   return {
     type: Types.UPDATE_PRODUCT,
-    itemObject: itemObject
+    itemObject
   }
 }

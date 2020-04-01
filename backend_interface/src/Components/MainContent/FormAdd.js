@@ -8,7 +8,7 @@ class FormAdd extends Component {
   constructor(props) {
     super(props); 
     //name của input
-    this.state={
+    this.state = {
       id:'',
       txtName:'',
       txtPrice:'',
@@ -304,9 +304,9 @@ componentWillReceiveProps(nextProps) {
   }
 }
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state, nextProps) => {
   return {
-    itemEditing: state.itemEditing  
+    itemEditing: state.itemEditing
   }
 }
 

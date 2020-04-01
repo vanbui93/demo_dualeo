@@ -19,7 +19,7 @@ router.get('/api/products', function(req, res) {
         return res.send(err.message);
       } else {   // Nếu thành công trả về response
         // console.log(response.rows); //console chỉ xem được trên backend thôi
-        return res.send(response.rows);  //send dữ liệu phía api
+        return res.send(response.rows);
       }
       // pool.end(); // đóng cổng kết nói csdl
     })
@@ -70,12 +70,12 @@ router.delete('/api/delete/:id', (req, res) => {
 router.get('/api/products/:id', function(req, res) {
   pool.connect(function(error){
     var sql = "SELECT * FROM product_info " + "WHERE id='"+req.params.id+"'";
-    pool.query(sql, (err, results) => {
+    pool.query(sql, (err, response) => {
       if(error) {  // nếu lỗi thì trả về error
         return console.error('error running query', err.message);
       } else {   // Nếu thành công trả về response
         // console.log(response.rows); //console chỉ xem được trên backend thôi
-        return res.send(results.rows[0]);
+        return res.send(response.rows);
       }
       // pool.end(); // đóng cổng kết nói csdl
     })
@@ -84,7 +84,7 @@ router.get('/api/products/:id', function(req, res) {
 
 
 //Tiến hành update vào api
-router.put('/api/edit/:id', function(req, res) {
+router.put('/api/products/:id', function(req, res) {
   pool.connect(function(error){
     var sql = "UPDATE product_info SET " + 
     "product_name = '"+req.body.product_name+"'," + 
