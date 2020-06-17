@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
-import { actAddProductRequest, actGetEditProductRequest,actUpdateProductRequest } from './../../actions/index';
+import { actAddProductRequest, actGetEditProductRequest,actUpdateProductRequest } from './../../redux-thunk/index';
 
 class FormAdd extends Component {
 

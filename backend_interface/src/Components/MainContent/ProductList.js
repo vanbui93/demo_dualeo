@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ProductItem from './ProductItem';
 import { connect } from 'react-redux';
 import callApi from './../../ConnectAxios/apiCaller';
-import { actGetProductsRequest,actDeleteProductRequest } from './../../actions/index';
+import { actGetProductsRequest,actDeleteProductRequest } from './../../redux-thunk/index';
 import products from './../../reducers/products';
 
 
